@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://ceqods0v0o132"]
+
+[ext_resource type="Texture2D" uid="uid://bo1tqk1vthoiw" path="res://assets/tile_0111.png" id="1_ucunv"]
+[ext_resource type="Texture2D" uid="uid://baw6s0l0ycvsv" path="res://assets/tile_0112.png" id="2_2y6yc"]
+[ext_resource type="Texture2D" uid="uid://qpl165otq162" path="res://assets/tile_0108.png" id="3_kbe5p"]
+[ext_resource type="Texture2D" uid="uid://d2pqsa2r1wg0e" path="res://assets/tile_0119.png" id="4_rm1cl"]
+[ext_resource type="Texture2D" uid="uid://urml1m7se1cd" path="res://assets/tile_0130.png" id="5_7ubq4"]
+[ext_resource type="Texture2D" uid="uid://c1hyybhek00f6" path="res://assets/tile_0131.png" id="6_oecfi"]
+[ext_resource type="Texture2D" uid="uid://2i7vblnj7o2m" path="res://assets/tile_0133.png" id="7_moct7"]
+[ext_resource type="Texture2D" uid="uid://bq4y2p06h8v7l" path="res://assets/tile_0126.png" id="8_bjrtg"]
+[ext_resource type="Texture2D" uid="uid://cv56upljpd4jq" path="res://assets/tile_0114.png" id="9_owypx"]
+[ext_resource type="Texture2D" uid="uid://cecb3fge7vqy7" path="res://assets/tile_0093.png" id="10_qptem"]
+
+[node name="TitleScreen" type="Control" unique_id=2145786816]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=900434423]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0.101960786, 0.101960786, 0.18039216, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=304910415]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 60.0
+offset_right = 289.0
+offset_bottom = 100.0
+theme_override_constants/separation = 2
+alignment = 1
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=1997019510]
+layout_mode = 2
+texture = ExtResource("1_ucunv")
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer" unique_id=1737120571]
+layout_mode = 2
+texture = ExtResource("2_2y6yc")
+
+[node name="TextureRect3" type="TextureRect" parent="HBoxContainer" unique_id=393868372]
+layout_mode = 2
+texture = ExtResource("3_kbe5p")
+
+[node name="TextureRect4" type="TextureRect" parent="HBoxContainer" unique_id=416607921]
+layout_mode = 2
+texture = ExtResource("4_rm1cl")
+
+[node name="TextureRect5" type="TextureRect" parent="HBoxContainer" unique_id=1551401568]
+layout_mode = 2
+texture = ExtResource("2_2y6yc")
+
+[node name="TextureRect6" type="TextureRect" parent="HBoxContainer" unique_id=1007106844]
+layout_mode = 2
+texture = ExtResource("5_7ubq4")
+
+[node name="TextureRect7" type="TextureRect" parent="HBoxContainer" unique_id=991507419]
+layout_mode = 2
+texture = ExtResource("6_oecfi")
+
+[node name="TextureRect8" type="TextureRect" parent="HBoxContainer" unique_id=1488455989]
+layout_mode = 2
+
+[node name="TextureRect16" type="TextureRect" parent="HBoxContainer" unique_id=727020275]
+layout_mode = 2
+
+[node name="TextureRect9" type="TextureRect" parent="HBoxContainer" unique_id=925561280]
+layout_mode = 2
+texture = ExtResource("1_ucunv")
+
+[node name="TextureRect10" type="TextureRect" parent="HBoxContainer" unique_id=823827895]
+layout_mode = 2
+texture = ExtResource("7_moct7")
+
+[node name="TextureRect11" type="TextureRect" parent="HBoxContainer" unique_id=1042343353]
+layout_mode = 2
+texture = ExtResource("8_bjrtg")
+
+[node name="TextureRect12" type="TextureRect" parent="HBoxContainer" unique_id=1337785045]
+layout_mode = 2
+texture = ExtResource("9_owypx")
+
+[node name="TextureRect13" type="TextureRect" parent="HBoxContainer" unique_id=446107406]
+layout_mode = 2
+texture = ExtResource("2_2y6yc")
+
+[node name="TextureRect14" type="TextureRect" parent="HBoxContainer" unique_id=202695305]
+layout_mode = 2
+texture = ExtResource("10_qptem")
+
+[node name="TextureRect15" type="TextureRect" parent="HBoxContainer" unique_id=1757885385]
+layout_mode = 2
+texture = ExtResource("8_bjrtg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1691818020]
+
+[node name="Background" type="TextureRect" parent="." unique_id=847479853]
+layout_mode = 0
+offset_left = 20.0
+offset_right = 20.0
+offset_bottom = 40.0
