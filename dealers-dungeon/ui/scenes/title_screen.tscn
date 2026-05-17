@@ -65,7 +65,6 @@ offset_top = 561.0
 offset_right = 1369.0
 offset_bottom = 1269.0
 icon = ExtResource("5_qptem")
-flat = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=304910415]
 layout_mode = 0
