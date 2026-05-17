@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://2bsfji5sg2go"]
+
+[ext_resource type="Script" uid="uid://c43ie6kkkbcfk" path="res://ui/scenes/npc_text_box.gd" id="1_ovyuv"]
+
+[node name="BigToadDialog" type="Node2D" unique_id=1806018341]
+script = ExtResource("1_ovyuv")
