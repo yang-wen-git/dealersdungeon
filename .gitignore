@@ -1,1 +1,13 @@
 .godot/
+dealers-dungeon.md
+.claude/
+CLAUDE.md
+.env
+*.pem
+.aws/
+.DS_Store
+*.swp
+*.swo
+*~
+bedrock-proxy-migration.md
+
