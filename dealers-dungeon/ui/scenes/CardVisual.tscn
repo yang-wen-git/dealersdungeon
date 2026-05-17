@@ -10,7 +10,11 @@
 script = ExtResource("1_rnn5a")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=784231864]
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 script = ExtResource("1_rnn5a")
 >>>>>>> Stashed changes
+=======
+script = ExtResource("1_rnn5a")
+>>>>>>> a8a6c31960e7106007de729b8971dd984d17646f
