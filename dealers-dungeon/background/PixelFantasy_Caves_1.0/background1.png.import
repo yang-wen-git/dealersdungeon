@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vgvygvaxe7qc"
-path="res://.godot/imported/Clubs_5_R.png-698ee3d27a391a77430970a3c9aa186b.ctex"
+uid="uid://b4nccfvlncbd7"
+path="res://.godot/imported/background1.png-8979b45fb27ce3a1d2c72cb12bf4f6a5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cards/Clubs_5_R.png"
-dest_files=["res://.godot/imported/Clubs_5_R.png-698ee3d27a391a77430970a3c9aa186b.ctex"]
+source_file="res://background/PixelFantasy_Caves_1.0/background1.png"
+dest_files=["res://.godot/imported/background1.png-8979b45fb27ce3a1d2c72cb12bf4f6a5.ctex"]
 
 [params]
 
