@@ -4,12 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://dqtx8nw64g8em" path="res://Sprites/Stand.png" id="2_56i82"]
 [ext_resource type="Texture2D" uid="uid://dqxiqt4wcsd2h" path="res://Sprites/Split.png" id="3_84dds"]
 [ext_resource type="Texture2D" uid="uid://dtuneljbi76o6" path="res://Sprites/Cards/Card_Back_4.png" id="4_84dds"]
-[ext_resource type="Script" uid="uid://4su13l4cqne3" path="res://ui/scenes/deck_visual.gd" id="5_jeg56"]
+[ext_resource type="Script" path="res://ui/scenes/deck_visual.gd" id="5_jeg56"]
 [ext_resource type="Texture2D" uid="uid://ckdtojx202btw" path="res://Sprites/Mushroom/Mushroom-Idle.png" id="6_jeg56"]
 [ext_resource type="Script" path="res://ui/scenes/enemy_mushroom.gd" id="7_igdnn"]
 [ext_resource type="Script" uid="uid://c6wtaiwx263pb" path="res://Scripts/GameLogic/GameState.gd" id="8_tj4ba"]
 [ext_resource type="Texture2D" uid="uid://e0c4hqgaerxi" path="res://Sprites/Cards/Card_Back_1.png" id="9_f0j42"]
 [ext_resource type="Texture2D" uid="uid://bdm0xhxaxrprc" path="res://Sprites/Cards/Card_Back_2.png" id="10_1qd6q"]
+[ext_resource type="Texture2D" uid="uid://je45h52ft3h5" path="res://Sprites/Cards/Card_Back_3.png" id="11_1qd6q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_igdnn"]
 atlas = ExtResource("6_jeg56")
@@ -82,10 +83,10 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="ScoreLabel" type="Label" parent="UI Master" unique_id=261509162]
-offset_left = 99.0
-offset_top = 668.0
-offset_right = 348.0
-offset_bottom = 792.0
+offset_left = 64.0
+offset_top = 628.0
+offset_right = 313.0
+offset_bottom = 752.0
 
 [node name="Hand2ScoreLabel" type="Label" parent="UI Master" unique_id=1062327340]
 offset_right = 40.0
@@ -138,36 +139,56 @@ layout_mode = 2
 script = ExtResource("8_tj4ba")
 
 [node name="SplitHand" type="Node2D" parent="." unique_id=1710380589]
-position = Vector2(1647, 554)
+position = Vector2(1296.0001, 591.00006)
 scale = Vector2(5, 5)
 
 [node name="SplitHandCard1" type="Sprite2D" parent="SplitHand" unique_id=2022415695]
+position = Vector2(-156.20001, 54.999996)
+texture = ExtResource("11_1qd6q")
 
 [node name="SplitHandCard2" type="Sprite2D" parent="SplitHand" unique_id=2026912396]
+position = Vector2(-116.60001, 55.399975)
 scale = Vector2(0.99999994, 0.99999994)
+texture = ExtResource("11_1qd6q")
 
 [node name="SplitHandCard3" type="Sprite2D" parent="SplitHand" unique_id=1854939187]
+visible = false
+position = Vector2(-155.20001, 74.39999)
+texture = ExtResource("11_1qd6q")
 
 [node name="SplitHandCard4" type="Sprite2D" parent="SplitHand" unique_id=1977066096]
+visible = false
+position = Vector2(-116.20003, 75.999985)
+texture = ExtResource("11_1qd6q")
 
 [node name="EnemyHand" type="Node2D" parent="." unique_id=1320238796]
-position = Vector2(1647, 554)
+position = Vector2(1275.0001, 501.00006)
 scale = Vector2(5, 5)
 
 [node name="EnemyCard1" type="Sprite2D" parent="EnemyHand" unique_id=514259876]
+position = Vector2(-224.80002, -35.80001)
+texture = ExtResource("11_1qd6q")
 
 [node name="EnemyCard2" type="Sprite2D" parent="EnemyHand" unique_id=1267392567]
+position = Vector2(-183.20001, -35.80001)
+texture = ExtResource("11_1qd6q")
 
 [node name="EnemyCard3" type="Sprite2D" parent="EnemyHand" unique_id=1832058274]
+visible = false
+position = Vector2(-224.20001, -20.200008)
+texture = ExtResource("11_1qd6q")
 
 [node name="EnemyCard4" type="Sprite2D" parent="EnemyHand" unique_id=713550857]
+visible = false
+position = Vector2(-181.80002, -19.60001)
+texture = ExtResource("11_1qd6q")
 
 [node name="EnemyHealth" type="Label" parent="EnemyHand" unique_id=1385259381]
 offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="DeckVisual" type="Sprite2D" parent="." unique_id=1951779443]
-position = Vector2(1647, 554)
+position = Vector2(1635, 521)
 scale = Vector2(5, 5)
 texture = ExtResource("4_84dds")
 script = ExtResource("5_jeg56")
@@ -178,8 +199,8 @@ position = Vector2(937, 688)
 [node name="Mushroom" type="Node2D" parent="Enemies" unique_id=466098753]
 
 [node name="Enemy_Mushroom" type="AnimatedSprite2D" parent="Enemies/Mushroom" unique_id=927883438]
-position = Vector2(172.99994, -497)
-scale = Vector2(5, 5)
+position = Vector2(-2.0000458, -495.00003)
+scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_livib")
 animation = &"idle"
 frame_progress = 0.847172
@@ -189,18 +210,26 @@ script = ExtResource("7_igdnn")
 position = Vector2(1485, 815)
 
 [node name="PlayerCard1" type="Sprite2D" parent="PlayerHand" unique_id=1349807196]
-position = Vector2(-1352.9999, 123.99999)
+position = Vector2(-1356, 44.5)
 scale = Vector2(5, 5)
 texture = ExtResource("9_f0j42")
 
 [node name="PlayerCard2" type="Sprite2D" parent="PlayerHand" unique_id=796302562]
-position = Vector2(-1157, 126.999985)
+position = Vector2(-1160.0001, 47.499992)
 scale = Vector2(5, 5)
 texture = ExtResource("10_1qd6q")
 
 [node name="PlayerCard3" type="Sprite2D" parent="PlayerHand" unique_id=1542609545]
+visible = false
+position = Vector2(-1348.0002, 105.50001)
+scale = Vector2(5, 5)
+texture = ExtResource("11_1qd6q")
 
 [node name="PlayerCard4" type="Sprite2D" parent="PlayerHand" unique_id=101244343]
+visible = false
+position = Vector2(-1154.0001, 109.49999)
+scale = Vector2(5, 5)
+texture = ExtResource("11_1qd6q")
 
 [node name="PLayerHealth" type="Label" parent="PlayerHand" unique_id=1063458512]
 offset_right = 40.0

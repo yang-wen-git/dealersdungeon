@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="DealersDungeon"
-run/main_scene="uid://ceqods0v0o132"
+run/main_scene="uid://db2g241b7kts3"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://Sprites/icon.svg"
+
+[autoload]
+
+BedrockClient="*uid://cc10uyp0128p0"
 
 [display]
 
