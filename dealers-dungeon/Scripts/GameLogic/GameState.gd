@@ -1,7 +1,29 @@
+
 class_name GameState
 extends Node
 
+# --- UI References ---
+@onready var hit_button: Button = $"../UI Master/HBoxContainer/HitButton"
+@onready var stand_button: Button = $"../UI Master/HBoxContainer/StandButton"
+@onready var double_button: Button = $"../UI Master/HBoxContainer/DoubleButton"
+@onready var dealer_score_label: Label = $"../UI Master/DealerScoreLabel"
+@onready var score_label: Label = $"../UI Master/ScoreLabel"
+@onready var player_card_1: Sprite2D = $"../PlayerHand/PlayerCard1"
+@onready var player_card_2: Sprite2D = $"../PlayerHand/PlayerCard2"
+@onready var player_card_3: Sprite2D = $"../PlayerHand/PlayerCard3"
+@onready var player_card_4: Sprite2D = $"../PlayerHand/PlayerCard4"
+@onready var enemy_card_1: Sprite2D = $"../EnemyHand/EnemyCard1"
+@onready var enemy_card_2: Sprite2D = $"../EnemyHand/EnemyCard2"
+@onready var enemy_card_3: Sprite2D = $"../EnemyHand/EnemyCard3"
+@onready var enemy_card_4: Sprite2D = $"../EnemyHand/EnemyCard4"
+@onready var split_hand_card_1: Sprite2D = $"../SplitHand/SplitHandCard1"
+@onready var split_hand_card_2: Sprite2D = $"../SplitHand/SplitHandCard2"
+@onready var split_hand_card_3: Sprite2D = $"../SplitHand/SplitHandCard3"
+@onready var split_hand_card_4: Sprite2D = $"../SplitHand/SplitHandCard4"
+
 # --- State Variables ---
+
+var card_sprites: CardSprites = CardSprites.new()
 
 var registry: CardRegistry
 var run_data: RunData
@@ -23,7 +45,128 @@ var player_stood: bool = false
 
 func _ready():
 	run_data = RunData.new()
+	hit_button.pressed.connect(_on_hit_pressed)
+	stand_button.pressed.connect(_on_stand_pressed)
+	double_button.pressed.connect(_on_split_pressed)
+	hide_all_cards()
+	hide_split_hand()
+	set_buttons_visible(false)
 	show_pre_battle()
+
+# --- Button Callbacks ---
+
+func _on_hit_pressed() -> void:
+	hit()
+
+func _on_stand_pressed() -> void:
+	stand()
+
+func _on_split_pressed() -> void:
+	split()
+
+# --- UI Update Functions ---
+
+func get_player_card_sprites() -> Array[Sprite2D]:
+	return [player_card_1, player_card_2, player_card_3, player_card_4]
+
+func get_enemy_card_sprites() -> Array[Sprite2D]:
+	return [enemy_card_1, enemy_card_2, enemy_card_3, enemy_card_4]
+
+func get_split_card_sprites() -> Array[Sprite2D]:
+	return [split_hand_card_1, split_hand_card_2, split_hand_card_3, split_hand_card_4]
+
+func hide_all_cards() -> void:
+	for sprite in get_player_card_sprites():
+		sprite.visible = false
+	for sprite in get_enemy_card_sprites():
+		sprite.visible = false
+
+func hide_split_hand() -> void:
+	for sprite in get_split_card_sprites():
+		sprite.visible = false
+
+func set_buttons_visible(show: bool) -> void:
+	hit_button.visible = show
+	stand_button.visible = show
+	double_button.visible = show
+
+func update_player_hand_ui() -> void:
+	var card_sprites_arr = get_player_card_sprites()
+	var hand: Hand
+
+	if has_split:
+		hand = player_hands[current_hand_index]
+	else:
+		hand = player_hands[0]
+
+	for i in range(4):
+		if i < hand.cards.size():
+			var card_id = hand.cards[i]
+			card_sprites_arr[i].texture = card_sprites.get_texture(card_id)
+			card_sprites_arr[i].visible = true
+		else:
+			card_sprites_arr[i].visible = false
+
+	score_label.text = str(get_hand_value(hand))
+
+func update_enemy_hand_ui_hidden() -> void:
+	if enemies.is_empty():
+		return
+	var enemy = get_active_enemies()[0]
+	var enemy_sprites = get_enemy_card_sprites()
+
+	# Card 1: face up
+	if enemy.hand.cards.size() >= 1:
+		var card_id = enemy.hand.cards[0]
+		enemy_sprites[0].texture = card_sprites.get_texture(card_id)
+		enemy_sprites[0].visible = true
+	else:
+		enemy_sprites[0].visible = false
+
+	# Card 2: card back
+	if enemy.hand.cards.size() >= 2:
+		enemy_sprites[1].texture = card_sprites.card_back
+		enemy_sprites[1].visible = true
+	else:
+		enemy_sprites[1].visible = false
+
+	# Cards 3-4: hidden
+	enemy_sprites[2].visible = false
+	enemy_sprites[3].visible = false
+
+	dealer_score_label.text = "?"
+
+func update_enemy_hand_ui_revealed() -> void:
+	if enemies.is_empty():
+		return
+	var enemy = get_active_enemies()[0]
+	var enemy_sprites = get_enemy_card_sprites()
+
+	for i in range(4):
+		if i < enemy.hand.cards.size():
+			var card_id = enemy.hand.cards[i]
+			enemy_sprites[i].texture = card_sprites.get_texture(card_id)
+			enemy_sprites[i].visible = true
+		else:
+			enemy_sprites[i].visible = false
+
+	dealer_score_label.text = str(get_hand_value(enemy.hand))
+
+func update_split_hand_ui() -> void:
+	if not has_split or player_hands.size() < 2:
+		hide_split_hand()
+		return
+
+	var split_sprites = get_split_card_sprites()
+	var other_hand_index = 0 if current_hand_index == 1 else 1
+	var hand = player_hands[other_hand_index]
+
+	for i in range(4):
+		if i < hand.cards.size():
+			split_sprites[i].texture = card_sprites.get_texture(hand.cards[i])
+			split_sprites[i].visible = true
+		else:
+			split_sprites[i].visible = false
 
 # --- Pre-Battle ---
 
@@ -34,6 +177,12 @@ func show_pre_battle() -> void:
 		return
 
 	battle_active = false
+	hide_all_cards()
+	hide_split_hand()
+	set_buttons_visible(false)
+	score_label.text = ""
+	dealer_score_label.text = ""
+
 	print("")
 	print("=== UPCOMING BATTLE ===")
 	print("	%s" % encounter.encounter_name)
@@ -117,6 +266,14 @@ func start_new_round() -> void:
 		draw_to_hand(enemy.hand)
 		draw_to_hand(enemy.hand)
 
+	# Update UI for new round
+	hide_all_cards()
+	hide_split_hand()
+	update_player_hand_ui()
+	update_enemy_hand_ui_hidden()
+	set_buttons_visible(true)
+	double_button.visible = can_split()
+
 	print("")
 	print("=== ROUND %d ===" % current_round)
 	print("	Cards remaining: %d" % deck.remaining())
@@ -150,6 +307,7 @@ func check_blackjack() -> bool:
 				apply_enemy_attack(enemy)
 			print_single_dealer_revealed(enemy)
 			enemy.round_resolved = true
+		update_enemy_hand_ui_revealed()
 		print("")
 
 	if player_has_bj:
@@ -164,10 +322,14 @@ func check_blackjack() -> bool:
 			pass
 		else:
 			print("BLACKJACK! You win!")
+		update_enemy_hand_ui_revealed()
+		set_buttons_visible(false)
 		end_round()
 		return true
 
 	if get_unresolved_enemies().is_empty():
+		update_enemy_hand_ui_revealed()
+		set_buttons_visible(false)
 		end_round()
 		return true
 
@@ -180,6 +342,7 @@ func end_round() -> void:
 		deck.discard_hand(enemy.hand)
 
 	game_active = false
+	set_buttons_visible(false)
 
 	# Check player death
 	if run_data.player.health <= 0:
@@ -213,6 +376,11 @@ func hit() -> void:
 
 	var current_hand = player_hands[current_hand_index]
 	draw_to_hand(current_hand)
+
+	# Update UI after drawing
+	update_player_hand_ui()
+	double_button.visible = false
+
 	print("")
 	print_current_hand()
 
@@ -264,6 +432,11 @@ func split() -> void:
 
 	current_hand_index = 0
 
+	# Update UI for split
+	update_player_hand_ui()
+	update_split_hand_ui()
+	double_button.visible = false
+
 	print("")
 	print("=== SPLIT! Playing two hands ===")
 	print("")
@@ -295,6 +468,8 @@ func advance_to_next_hand() -> void:
 		if all_busted:
 			player_busted = true
 			player_turn = false
+			update_enemy_hand_ui_revealed()
+			set_buttons_visible(false)
 			print("")
 			print("All hands busted!")
 			print_all_dealer_hands_revealed()
@@ -304,9 +479,13 @@ func advance_to_next_hand() -> void:
 		else:
 			player_stood = true
 			player_turn = false
+			set_buttons_visible(false)
 			print("")
 			dealer_turns()
 	else:
+		# Switching to next split hand
+		update_player_hand_ui()
+		update_split_hand_ui()
 		print("")
 		print("=== Now playing %s ===" % player_hands[current_hand_index].owner_name)
 		print_current_hand()
@@ -315,12 +494,15 @@ func advance_to_next_hand() -> void:
 # --- Dealer Turn ---
 
 func dealer_turns() -> void:
+	update_enemy_hand_ui_revealed()
+
 	for enemy in get_unresolved_enemies():
 		print("--- %s's Turn (stands on %d) ---" % [enemy.name, enemy.stand_value])
 		print_single_dealer_revealed(enemy)
 
 		while get_hand_value(enemy.hand) < enemy.stand_value:
 			draw_to_hand(enemy.hand)
+			update_enemy_hand_ui_revealed()
 			print("%s hits." % enemy.name)
 			print_single_dealer_revealed(enemy)
 
@@ -373,6 +555,8 @@ func _input(event: InputEvent) -> void:
 	if not battle_active:
 		if event.keycode == KEY_B:
 			start_battle()
+		elif event.keycode == KEY_N:
+			show_pre_battle()
 		elif event.keycode == KEY_D:
 			run_data.print_deck()
 		elif event.keycode == KEY_Q:
@@ -427,12 +611,10 @@ func get_hand_value(hand: Hand) -> int:
 
 func calculate_player_damage() -> int:
 	var base = run_data.player.get_damage()
-	# Future: apply item/buff modifiers here
 	return base
 
 func calculate_enemy_damage(enemy: Enemy) -> int:
 	var base = enemy.damage
-	# Future: apply player defense reduction here
 	return base
 
 func apply_player_attack(enemy: Enemy) -> void:

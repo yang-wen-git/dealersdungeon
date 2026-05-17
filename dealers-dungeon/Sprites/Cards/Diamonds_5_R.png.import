@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bsg77xyq8cnf8"
-path="res://.godot/imported/Queen_B.png-8544cf9798526e52fb8508720243813b.ctex"
+uid="uid://vgvygvaxe7qc"
+path="res://.godot/imported/Diamonds_5_R.png-622384f91e5a832eb7fe39835d1f495c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cards/Queen_B.png"
-dest_files=["res://.godot/imported/Queen_B.png-8544cf9798526e52fb8508720243813b.ctex"]
+source_file="res://Sprites/Cards/Diamonds_5_R.png"
+dest_files=["res://.godot/imported/Diamonds_5_R.png-622384f91e5a832eb7fe39835d1f495c.ctex"]
 
 [params]
 

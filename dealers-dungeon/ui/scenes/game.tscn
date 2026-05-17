@@ -3,6 +3,70 @@
 [ext_resource type="Texture2D" uid="uid://daet8utg8tkpq" path="res://Sprites/Hit.png" id="1_0h1n1"]
 [ext_resource type="Texture2D" uid="uid://dqtx8nw64g8em" path="res://Sprites/Stand.png" id="2_56i82"]
 [ext_resource type="Texture2D" uid="uid://dqxiqt4wcsd2h" path="res://Sprites/Split.png" id="3_84dds"]
+[ext_resource type="Texture2D" uid="uid://dtuneljbi76o6" path="res://Sprites/Cards/Card_Back_4.png" id="4_84dds"]
+[ext_resource type="Script" uid="uid://4su13l4cqne3" path="res://ui/scenes/deck_visual.gd" id="5_jeg56"]
+[ext_resource type="Texture2D" uid="uid://ckdtojx202btw" path="res://Sprites/Mushroom/Mushroom-Idle.png" id="6_jeg56"]
+[ext_resource type="Script" path="res://ui/scenes/enemy_mushroom.gd" id="7_igdnn"]
+[ext_resource type="Script" uid="uid://c6wtaiwx263pb" path="res://Scripts/GameLogic/GameState.gd" id="8_tj4ba"]
+[ext_resource type="Texture2D" uid="uid://e0c4hqgaerxi" path="res://Sprites/Cards/Card_Back_1.png" id="9_f0j42"]
+[ext_resource type="Texture2D" uid="uid://bdm0xhxaxrprc" path="res://Sprites/Cards/Card_Back_2.png" id="10_1qd6q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igdnn"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(0, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tj4ba"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(80, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jekkv"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(160, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0j42"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(240, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qd6q"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(320, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rgdf"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(400, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1nbu"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(480, 0, 80, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_livib"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igdnn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tj4ba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jekkv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f0j42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qd6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rgdf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u1nbu")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [node name="Game_tscn" type="Node2D" unique_id=1704856638]
 
@@ -18,16 +82,22 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="ScoreLabel" type="Label" parent="UI Master" unique_id=261509162]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 99.0
+offset_top = 668.0
+offset_right = 348.0
+offset_bottom = 792.0
 
 [node name="ChipsLabel" type="Label" parent="UI Master" unique_id=461066778]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 22.0
+offset_top = 7.0
+offset_right = 62.0
+offset_bottom = 30.0
 
 [node name="BetLabel" type="Label" parent="UI Master" unique_id=1926505779]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 146.0
+offset_top = 329.0
+offset_right = 186.0
+offset_bottom = 352.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI Master" unique_id=1846608895]
 offset_left = 848.0
@@ -53,3 +123,69 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
 theme_override_font_sizes/font_size = 24
 icon = ExtResource("3_84dds")
+
+[node name="GameState" type="Node" parent="." unique_id=1310702007]
+script = ExtResource("8_tj4ba")
+
+[node name="SplitHand" type="Node2D" parent="." unique_id=1710380589]
+position = Vector2(1647, 554)
+scale = Vector2(5, 5)
+
+[node name="SplitHandCard1" type="Sprite2D" parent="SplitHand" unique_id=2022415695]
+
+[node name="SplitHandCard2" type="Sprite2D" parent="SplitHand" unique_id=2026912396]
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="SplitHandCard3" type="Sprite2D" parent="SplitHand" unique_id=1854939187]
+
+[node name="SplitHandCard4" type="Sprite2D" parent="SplitHand" unique_id=1977066096]
+
+[node name="EnemyHand" type="Node2D" parent="." unique_id=1320238796]
+position = Vector2(1647, 554)
+scale = Vector2(5, 5)
+
+[node name="EnemyCard1" type="Sprite2D" parent="EnemyHand" unique_id=514259876]
+
+[node name="EnemyCard2" type="Sprite2D" parent="EnemyHand" unique_id=1267392567]
+
+[node name="EnemyCard3" type="Sprite2D" parent="EnemyHand" unique_id=1832058274]
+
+[node name="EnemyCard4" type="Sprite2D" parent="EnemyHand" unique_id=713550857]
+
+[node name="DeckVisual" type="Sprite2D" parent="." unique_id=1951779443]
+position = Vector2(1647, 554)
+scale = Vector2(5, 5)
+texture = ExtResource("4_84dds")
+script = ExtResource("5_jeg56")
+
+[node name="Enemies" type="Node2D" parent="." unique_id=626687081]
+position = Vector2(937, 688)
+
+[node name="Mushroom" type="Node2D" parent="Enemies" unique_id=466098753]
+
+[node name="Enemy_Mushroom" type="AnimatedSprite2D" parent="Enemies/Mushroom" unique_id=927883438]
+position = Vector2(172.99994, -497)
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_livib")
+animation = &"idle"
+frame_progress = 0.847172
+script = ExtResource("7_igdnn")
+
+[node name="PlayerHand" type="Node2D" parent="." unique_id=1501980076]
+position = Vector2(1485, 815)
+
+[node name="PlayerCard1" type="Sprite2D" parent="PlayerHand" unique_id=1349807196]
+position = Vector2(-1352.9999, 123.99999)
+scale = Vector2(5, 5)
+texture = ExtResource("9_f0j42")
+
+[node name="PlayerCard2" type="Sprite2D" parent="PlayerHand" unique_id=796302562]
+position = Vector2(-1157, 126.999985)
+scale = Vector2(5, 5)
+texture = ExtResource("10_1qd6q")
+
+[node name="PlayerCard3" type="Sprite2D" parent="PlayerHand" unique_id=1542609545]
+
+[node name="PlayerCard4" type="Sprite2D" parent="PlayerHand" unique_id=101244343]
+
+[node name="Node2D" type="Node2D" parent="." unique_id=1382731052]
