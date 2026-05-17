@@ -27,6 +27,10 @@ extends Node
 # ── Config ────────────────────────────────────────────────────────────────────
 # Loaded at runtime from aws_config.cfg (gitignored). See aws_config.cfg.example
 # for the file format. Never hardcode credentials in this script.
+# WARNING: Files under res:// are bundled into exported Godot builds by default.
+# Do not ship aws_config.cfg inside an export. Before release, either exclude
+# this file from export filters or move secrets to user://, environment
+# variables, or a backend/token-vending flow.
 
 const _CONFIG_PATH := "res://aws_config.cfg"
 
