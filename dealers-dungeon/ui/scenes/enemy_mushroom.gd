@@ -11,4 +11,4 @@ func do_damage_Anim():
 	
 func dies():
 	play("Death")
-	self.visible = 0
+	self.visible = false
