@@ -584,6 +584,11 @@ func _input(event: InputEvent) -> void:
 	if not event.pressed:
 		return
 
+	# Ignore game hotkeys while a text field (e.g. the chat box) has focus, so
+	# typing a message doesn't also trigger Hit/Stand/Split/etc.
+	if get_viewport().gui_get_focus_owner() is LineEdit:
+		return
+
 	# Pre-battle screen
 	if not battle_active:
 		if event.keycode == KEY_B:
