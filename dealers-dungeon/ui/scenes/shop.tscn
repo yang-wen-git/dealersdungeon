@@ -1,0 +1,169 @@
+[gd_scene format=3 uid="uid://b4e0vycpiaf5e"]
+
+[ext_resource type="Texture2D" uid="uid://bmvm27lo8p033" path="res://background/Final/Social/Test.png" id="1_j4jyv"]
+[ext_resource type="Texture2D" uid="uid://emdvn16n0uo1" path="res://Sprites/Cards/DoubleDown.png" id="2_jqmdv"]
+[ext_resource type="Texture2D" uid="uid://crh4tk0jef7iu" path="res://Sprites/Cards/Peek.png" id="3_aijh6"]
+[ext_resource type="Texture2D" uid="uid://cupoh4s0qbyuk" path="res://Sprites/Cards/Insurance.png" id="4_4ydx5"]
+
+[node name="Shop" type="Control" unique_id=874008825]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="TextureRect" parent="." unique_id=1604427226]
+layout_mode = 0
+offset_right = 2048.0
+offset_bottom = 1152.0
+texture = ExtResource("1_j4jyv")
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1806270722]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 3
+
+[node name="CardSlot1" type="Panel" parent="GridContainer" unique_id=110725612]
+layout_mode = 2
+
+[node name="Card1Img" type="TextureRect" parent="GridContainer/CardSlot1" unique_id=1007756517]
+layout_mode = 0
+offset_left = 778.0
+offset_top = 387.0
+offset_right = 937.0
+offset_bottom = 593.0
+texture = ExtResource("2_jqmdv")
+
+[node name="CardName" type="Label" parent="GridContainer/CardSlot1" unique_id=1201462275]
+layout_mode = 0
+offset_left = 783.0
+offset_top = 609.0
+offset_right = 939.0
+offset_bottom = 658.0
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Double Down"
+
+[node name="CardDesc" type="Label" parent="GridContainer/CardSlot1" unique_id=1433160310]
+layout_mode = 0
+offset_left = 763.0
+offset_top = 644.0
+offset_right = 956.0
+offset_bottom = 678.0
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Double your bet!"
+
+[node name="PriceLabel" type="Label" parent="GridContainer/CardSlot1" unique_id=1602746114]
+layout_mode = 0
+offset_left = 811.0
+offset_top = 682.0
+offset_right = 905.0
+offset_bottom = 716.0
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "50 chips"
+
+[node name="BuyButton" type="Button" parent="GridContainer/CardSlot1" unique_id=149100369]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="CardSlot2" type="Panel" parent="GridContainer" unique_id=1591871469]
+layout_mode = 2
+
+[node name="Card2Img" type="TextureRect" parent="GridContainer/CardSlot2" unique_id=2091737216]
+layout_mode = 0
+offset_left = 978.0
+offset_top = 387.0
+offset_right = 1137.0
+offset_bottom = 593.0
+texture = ExtResource("3_aijh6")
+
+[node name="Card2Name" type="Label" parent="GridContainer/CardSlot2" unique_id=217419404]
+layout_mode = 0
+offset_left = 1022.0
+offset_top = 605.0
+offset_right = 1078.0
+offset_bottom = 639.0
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Peek"
+
+[node name="Card2Desc" type="Label" parent="GridContainer/CardSlot2" unique_id=973679053]
+layout_mode = 0
+offset_left = 968.0
+offset_top = 643.0
+offset_right = 1146.0
+offset_bottom = 677.0
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "See dealer card"
+
+[node name="Price2Label" type="Label" parent="GridContainer/CardSlot2" unique_id=14794607]
+layout_mode = 0
+offset_left = 1002.0
+offset_top = 683.0
+offset_right = 1096.0
+offset_bottom = 717.0
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "75 chips"
+
+[node name="BuyButton" type="Button" parent="GridContainer/CardSlot2" unique_id=1811508559]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="CardSlot3" type="Panel" parent="GridContainer" unique_id=906461688]
+layout_mode = 2
+
+[node name="Card3Img" type="TextureRect" parent="GridContainer/CardSlot3" unique_id=1643434600]
+layout_mode = 0
+offset_left = 1178.0
+offset_top = 387.0
+offset_right = 1337.0
+offset_bottom = 593.0
+texture = ExtResource("4_4ydx5")
+
+[node name="Card3Name" type="Label" parent="GridContainer/CardSlot3" unique_id=1946845183]
+layout_mode = 0
+offset_left = 1202.0
+offset_top = 606.0
+offset_right = 1317.0
+offset_bottom = 640.0
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Insurance"
+
+[node name="Card3DescLabel" type="Label" parent="GridContainer/CardSlot3" unique_id=891257617]
+layout_mode = 0
+offset_left = 1166.0
+offset_top = 642.0
+offset_right = 1360.0
+offset_bottom = 676.0
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Protect your bet"
+
+[node name="PriceLabel" type="Label" parent="GridContainer/CardSlot3" unique_id=232186761]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 41.0
+offset_right = 84.0
+offset_bottom = 64.0
+
+[node name="BuyButton" type="Button" parent="GridContainer/CardSlot3" unique_id=367671112]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="ContinueButton" type="Button" parent="." unique_id=1650090192]
+layout_mode = 0
+offset_left = 887.0
+offset_top = 824.0
+offset_right = 1241.0
+offset_bottom = 906.0
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Continue"
