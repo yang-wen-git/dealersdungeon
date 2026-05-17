@@ -1,38 +1,34 @@
-[gd_scene format=3 uid="uid://devgyl6ohro0a"]
+[gd_scene format=3 uid="uid://dh36sidgq3l81"]
 
-[node name="GameOver" type="Control" unique_id=534482028]
+[node name="GameOver" type="Control" unique_id=294438469]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1036532504]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1995226150]
+layout_mode = 0
+offset_right = 2048.0
+offset_bottom = 1152.0
+color = Color(0.101960786, 0.101960786, 0.18039216, 1)
+
+[node name="ResultLabel" type="Label" parent="." unique_id=1428383508]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ScoreLabel" type="Label" parent="." unique_id=1395449103]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=598770745]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="." unique_id=762973620]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="Label2" type="Label" parent="." unique_id=913821102]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="Label3" type="Label" parent="." unique_id=1193700726]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=967496947]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="PlayAgainButton" type="Button" parent="VBoxContainer" unique_id=1735813263]
+[node name="PlayAgainButton" type="Button" parent="HBoxContainer" unique_id=107524326]
 layout_mode = 2
 
-[node name="MainMenuButton" type="Button" parent="VBoxContainer" unique_id=1286951389]
+[node name="MainMenuButton" type="Button" parent="HBoxContainer" unique_id=621196224]
 layout_mode = 2
