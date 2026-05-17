@@ -4,12 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://dqtx8nw64g8em" path="res://Sprites/Stand.png" id="2_56i82"]
 [ext_resource type="Texture2D" uid="uid://dqxiqt4wcsd2h" path="res://Sprites/Split.png" id="3_84dds"]
 [ext_resource type="Texture2D" uid="uid://dtuneljbi76o6" path="res://Sprites/Cards/Card_Back_4.png" id="4_84dds"]
-[ext_resource type="Script" uid="uid://4su13l4cqne3" path="res://ui/scenes/deck_visual.gd" id="5_jeg56"]
+[ext_resource type="Script" path="res://ui/scenes/deck_visual.gd" id="5_jeg56"]
 [ext_resource type="Texture2D" uid="uid://ckdtojx202btw" path="res://Sprites/Mushroom/Mushroom-Idle.png" id="6_jeg56"]
 [ext_resource type="Script" path="res://ui/scenes/enemy_mushroom.gd" id="7_igdnn"]
 [ext_resource type="Script" uid="uid://c6wtaiwx263pb" path="res://Scripts/GameLogic/GameState.gd" id="8_tj4ba"]
 [ext_resource type="Texture2D" uid="uid://e0c4hqgaerxi" path="res://Sprites/Cards/Card_Back_1.png" id="9_f0j42"]
 [ext_resource type="Texture2D" uid="uid://bdm0xhxaxrprc" path="res://Sprites/Cards/Card_Back_2.png" id="10_1qd6q"]
+[ext_resource type="Texture2D" uid="uid://je45h52ft3h5" path="res://Sprites/Cards/Card_Back_3.png" id="11_1qd6q"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_igdnn"]
 atlas = ExtResource("6_jeg56")
@@ -82,10 +83,10 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="ScoreLabel" type="Label" parent="UI Master" unique_id=261509162]
-offset_left = 99.0
-offset_top = 668.0
-offset_right = 348.0
-offset_bottom = 792.0
+offset_left = 64.0
+offset_top = 628.0
+offset_right = 313.0
+offset_bottom = 752.0
 
 [node name="ChipsLabel" type="Label" parent="UI Master" unique_id=461066778]
 offset_left = 22.0
@@ -175,17 +176,25 @@ script = ExtResource("7_igdnn")
 position = Vector2(1485, 815)
 
 [node name="PlayerCard1" type="Sprite2D" parent="PlayerHand" unique_id=1349807196]
-position = Vector2(-1352.9999, 123.99999)
+position = Vector2(-1356, 44.5)
 scale = Vector2(5, 5)
 texture = ExtResource("9_f0j42")
 
 [node name="PlayerCard2" type="Sprite2D" parent="PlayerHand" unique_id=796302562]
-position = Vector2(-1157, 126.999985)
+position = Vector2(-1160.0001, 47.499992)
 scale = Vector2(5, 5)
 texture = ExtResource("10_1qd6q")
 
 [node name="PlayerCard3" type="Sprite2D" parent="PlayerHand" unique_id=1542609545]
+visible = false
+position = Vector2(-1348.0002, 105.50001)
+scale = Vector2(5, 5)
+texture = ExtResource("11_1qd6q")
 
 [node name="PlayerCard4" type="Sprite2D" parent="PlayerHand" unique_id=101244343]
+visible = false
+position = Vector2(-1154.0001, 109.49999)
+scale = Vector2(5, 5)
+texture = ExtResource("11_1qd6q")
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1382731052]
