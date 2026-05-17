@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dd26w5wbtic0q"
-path="res://.godot/imported/Jack_Spades.png-68aaca78bf11fd8e2792989a1f810671.ctex"
+uid="uid://cetqtbnwurvc0"
+path="res://.godot/imported/Jack_B.png-66fba20c4d3741f068e85d7dc0952b3c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cards/Jack_Spades.png"
-dest_files=["res://.godot/imported/Jack_Spades.png-68aaca78bf11fd8e2792989a1f810671.ctex"]
+source_file="res://Sprites/Cards/Jack_B.png"
+dest_files=["res://.godot/imported/Jack_B.png-66fba20c4d3741f068e85d7dc0952b3c.ctex"]
 
 [params]
 
