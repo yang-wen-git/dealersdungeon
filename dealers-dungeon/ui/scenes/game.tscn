@@ -16,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://je45h52ft3h5" path="res://Sprites/Cards/Card_Back_3.png" id="11_1qd6q"]
 [ext_resource type="Texture2D" uid="uid://bgwob2w6f8dpu" path="res://Sprites/Mushroom/Mushroom-Hit.png" id="11_ww5o5"]
 [ext_resource type="Texture2D" uid="uid://0b3qlpvyq7d7" path="res://Sprites/newRound.png" id="15_xqw7t"]
+[ext_resource type="PackedScene" uid="uid://d24suxr16b5mx" path="res://ui/scenes/toad_dialog.tscn" id="17_yomj6"]
+[ext_resource type="Script" uid="uid://cplh3enapvmdd" path="res://ui/scenes/toad_dialog.gd" id="18_mk7gp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0qua3"]
 atlas = ExtResource("8_livib")
@@ -478,4 +480,8 @@ rotation = -0.049395584
 theme_override_font_sizes/font_size = 25
 horizontal_alignment = 1
 
-[node name="Node2D" type="Node2D" parent="." unique_id=1382731052]
+[node name="dialog" type="Node2D" parent="." unique_id=1382731052]
+
+[node name="toadDialog" parent="dialog" unique_id=1861104223 instance=ExtResource("17_yomj6")]
+position = Vector2(1133, 49)
+script = ExtResource("18_mk7gp")
