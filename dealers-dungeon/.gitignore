@@ -4,3 +4,5 @@
 
 # AWS credentials — never commit this file
 aws_config.cfg
+*.import
+*.uid
