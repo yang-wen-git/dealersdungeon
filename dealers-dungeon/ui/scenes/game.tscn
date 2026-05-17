@@ -1,5 +1,9 @@
 [gd_scene format=3 uid="uid://b8oaau0iekleq"]
 
+[ext_resource type="Texture2D" uid="uid://daet8utg8tkpq" path="res://Sprites/Hit.png" id="1_0h1n1"]
+[ext_resource type="Texture2D" uid="uid://dqtx8nw64g8em" path="res://Sprites/Stand.png" id="2_56i82"]
+[ext_resource type="Texture2D" uid="uid://dqxiqt4wcsd2h" path="res://Sprites/Split.png" id="3_84dds"]
+
 [node name="Game_tscn" type="Node2D" unique_id=1704856638]
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=471424798]
@@ -26,26 +30,26 @@ offset_right = 40.0
 offset_bottom = 23.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI Master" unique_id=1846608895]
-offset_left = 922.0
-offset_top = 926.0
-offset_right = 1170.0
-offset_bottom = 968.0
+offset_left = 848.0
+offset_top = 927.0
+offset_right = 1212.0
+offset_bottom = 1035.0
 theme_override_constants/separation = 20
 
 [node name="HitButton" type="Button" parent="UI Master/HBoxContainer" unique_id=1454298668]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
 theme_override_font_sizes/font_size = 24
-text = "Hit"
+icon = ExtResource("1_0h1n1")
 
 [node name="StandButton" type="Button" parent="UI Master/HBoxContainer" unique_id=1010999428]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
 theme_override_font_sizes/font_size = 24
-text = "Stand"
+icon = ExtResource("2_56i82")
 
 [node name="DoubleButton" type="Button" parent="UI Master/HBoxContainer" unique_id=1355856589]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
 theme_override_font_sizes/font_size = 24
-text = "Double"
+icon = ExtResource("3_84dds")
