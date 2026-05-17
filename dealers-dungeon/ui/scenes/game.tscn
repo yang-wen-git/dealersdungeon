@@ -87,6 +87,10 @@ offset_top = 668.0
 offset_right = 348.0
 offset_bottom = 792.0
 
+[node name="Hand2ScoreLabel" type="Label" parent="UI Master" unique_id=1062327340]
+offset_right = 40.0
+offset_bottom = 23.0
+
 [node name="ChipsLabel" type="Label" parent="UI Master" unique_id=461066778]
 offset_left = 22.0
 offset_top = 7.0
@@ -124,6 +128,12 @@ theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
 theme_override_font_sizes/font_size = 24
 icon = ExtResource("3_84dds")
 
+[node name="NewRound" type="Button" parent="UI Master/HBoxContainer" unique_id=239216164]
+layout_mode = 2
+
+[node name="BeginBattle" type="Button" parent="UI Master/HBoxContainer" unique_id=1230376887]
+layout_mode = 2
+
 [node name="GameState" type="Node" parent="." unique_id=1310702007]
 script = ExtResource("8_tj4ba")
 
@@ -151,6 +161,10 @@ scale = Vector2(5, 5)
 [node name="EnemyCard3" type="Sprite2D" parent="EnemyHand" unique_id=1832058274]
 
 [node name="EnemyCard4" type="Sprite2D" parent="EnemyHand" unique_id=713550857]
+
+[node name="EnemyHealth" type="Label" parent="EnemyHand" unique_id=1385259381]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [node name="DeckVisual" type="Sprite2D" parent="." unique_id=1951779443]
 position = Vector2(1647, 554)
@@ -187,5 +201,9 @@ texture = ExtResource("10_1qd6q")
 [node name="PlayerCard3" type="Sprite2D" parent="PlayerHand" unique_id=1542609545]
 
 [node name="PlayerCard4" type="Sprite2D" parent="PlayerHand" unique_id=101244343]
+
+[node name="PLayerHealth" type="Label" parent="PlayerHand" unique_id=1063458512]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1382731052]
