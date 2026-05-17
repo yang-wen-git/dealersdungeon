@@ -1,0 +1,187 @@
+[gd_scene format=3 uid="uid://ceqods0v0o132"]
+
+[ext_resource type="Script" uid="uid://diwemd1p23481" path="res://ui/scenes/title_screen.gd" id="1_moct7"]
+[ext_resource type="Texture2D" uid="uid://bo1tqk1vthoiw" path="res://assets/tile_0111.png" id="1_ucunv"]
+[ext_resource type="Texture2D" uid="uid://baw6s0l0ycvsv" path="res://assets/tile_0112.png" id="2_2y6yc"]
+[ext_resource type="Texture2D" uid="uid://66we8ryiw4dd" path="res://Sprites/Ace.png" id="2_bjrtg"]
+[ext_resource type="Texture2D" uid="uid://dtuhn788pn72x" path="res://Sprites/King.png" id="2_moct7"]
+[ext_resource type="Texture2D" uid="uid://bmf7dyqdraa3p" path="res://Sprites/Joker2.png" id="3_bjrtg"]
+[ext_resource type="Texture2D" uid="uid://qpl165otq162" path="res://assets/tile_0108.png" id="3_kbe5p"]
+[ext_resource type="Texture2D" uid="uid://cbnultgxq4hoh" path="res://Sprites/Start.png" id="4_owypx"]
+[ext_resource type="Texture2D" uid="uid://d2pqsa2r1wg0e" path="res://assets/tile_0119.png" id="4_rm1cl"]
+[ext_resource type="Texture2D" uid="uid://urml1m7se1cd" path="res://assets/tile_0130.png" id="5_7ubq4"]
+[ext_resource type="Texture2D" uid="uid://byjpmmb4bq1sm" path="res://Sprites/End.png" id="5_qptem"]
+[ext_resource type="Texture2D" uid="uid://c1hyybhek00f6" path="res://assets/tile_0131.png" id="6_oecfi"]
+[ext_resource type="Texture2D" uid="uid://2i7vblnj7o2m" path="res://assets/tile_0133.png" id="7_moct7"]
+[ext_resource type="Texture2D" uid="uid://bq4y2p06h8v7l" path="res://assets/tile_0126.png" id="8_bjrtg"]
+[ext_resource type="Texture2D" uid="uid://cv56upljpd4jq" path="res://assets/tile_0114.png" id="9_owypx"]
+[ext_resource type="Texture2D" uid="uid://cecb3fge7vqy7" path="res://assets/tile_0093.png" id="10_qptem"]
+
+[node name="TitleScreen" type="Control" unique_id=2145786816]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_moct7")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=900434423]
+layout_mode = 0
+offset_right = 2048.0
+offset_bottom = 1152.0
+color = Color(0.101960786, 0.101960786, 0.18039216, 1)
+
+[node name="Ace" type="Sprite2D" parent="." unique_id=1789474143]
+position = Vector2(404, 566)
+rotation = -0.31066862
+scale = Vector2(4.8, 4.8)
+texture = ExtResource("2_bjrtg")
+
+[node name="King" type="Sprite2D" parent="." unique_id=2028496116]
+position = Vector2(1000, 176.00002)
+scale = Vector2(4.8, 4.8)
+texture = ExtResource("2_moct7")
+
+[node name="Joker" type="Sprite2D" parent="." unique_id=395501550]
+position = Vector2(1543, 478.99994)
+rotation = 0.24958208
+scale = Vector2(4.8, 4.8)
+texture = ExtResource("3_bjrtg")
+
+[node name="PlayButton" type="Button" parent="." unique_id=1510423652]
+layout_mode = 0
+offset_left = 662.0
+offset_top = 238.0
+offset_right = 1370.0
+offset_bottom = 946.0
+icon = ExtResource("4_owypx")
+flat = true
+
+[node name="EndButton" type="Button" parent="." unique_id=1000351311]
+layout_mode = 0
+offset_left = 661.0
+offset_top = 561.0
+offset_right = 1369.0
+offset_bottom = 1269.0
+icon = ExtResource("5_qptem")
+flat = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=304910415]
+layout_mode = 0
+offset_left = -621.0
+offset_top = 309.0
+offset_right = 2637.0
+offset_bottom = 439.0
+theme_override_constants/separation = 2
+alignment = 1
+metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer" unique_id=1997019510]
+layout_mode = 2
+texture = ExtResource("1_ucunv")
+expand_mode = 3
+
+[node name="TextureRect2" type="TextureRect" parent="HBoxContainer" unique_id=1737120571]
+layout_mode = 2
+texture = ExtResource("2_2y6yc")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="HBoxContainer" unique_id=393868372]
+layout_mode = 2
+texture = ExtResource("3_kbe5p")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect4" type="TextureRect" parent="HBoxContainer" unique_id=416607921]
+layout_mode = 2
+texture = ExtResource("4_rm1cl")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect5" type="TextureRect" parent="HBoxContainer" unique_id=1551401568]
+layout_mode = 2
+texture = ExtResource("2_2y6yc")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect6" type="TextureRect" parent="HBoxContainer" unique_id=1007106844]
+layout_mode = 2
+texture = ExtResource("5_7ubq4")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect7" type="TextureRect" parent="HBoxContainer" unique_id=991507419]
+layout_mode = 2
+texture = ExtResource("6_oecfi")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect8" type="TextureRect" parent="HBoxContainer" unique_id=1488455989]
+layout_mode = 2
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect16" type="TextureRect" parent="HBoxContainer" unique_id=727020275]
+layout_mode = 2
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect17" type="TextureRect" parent="HBoxContainer" unique_id=2018558050]
+layout_mode = 2
+
+[node name="TextureRect18" type="TextureRect" parent="HBoxContainer" unique_id=655194428]
+layout_mode = 2
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect9" type="TextureRect" parent="HBoxContainer" unique_id=925561280]
+layout_mode = 2
+texture = ExtResource("1_ucunv")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect10" type="TextureRect" parent="HBoxContainer" unique_id=823827895]
+layout_mode = 2
+texture = ExtResource("7_moct7")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect11" type="TextureRect" parent="HBoxContainer" unique_id=1042343353]
+layout_mode = 2
+texture = ExtResource("8_bjrtg")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect12" type="TextureRect" parent="HBoxContainer" unique_id=1337785045]
+layout_mode = 2
+texture = ExtResource("9_owypx")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect13" type="TextureRect" parent="HBoxContainer" unique_id=446107406]
+layout_mode = 2
+texture = ExtResource("2_2y6yc")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect14" type="TextureRect" parent="HBoxContainer" unique_id=202695305]
+layout_mode = 2
+texture = ExtResource("10_qptem")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="TextureRect15" type="TextureRect" parent="HBoxContainer" unique_id=1757885385]
+layout_mode = 2
+texture = ExtResource("8_bjrtg")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1691818020]
+
+[node name="Background" type="TextureRect" parent="." unique_id=847479853]
+layout_mode = 0
+offset_left = 20.0
+offset_right = 20.0
+offset_bottom = 40.0
