@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dqtx8nw64g8em" path="res://Sprites/Stand.png" id="2_56i82"]
 [ext_resource type="Texture2D" uid="uid://dqxiqt4wcsd2h" path="res://Sprites/Split.png" id="3_84dds"]
 [ext_resource type="Texture2D" uid="uid://dtuneljbi76o6" path="res://Sprites/Cards/Card_Back_4.png" id="4_84dds"]
-[ext_resource type="Script" path="res://ui/scenes/deck_visual.gd" id="5_jeg56"]
+[ext_resource type="Script" uid="uid://4su13l4cqne3" path="res://ui/scenes/deck_visual.gd" id="5_jeg56"]
 [ext_resource type="Texture2D" uid="uid://ckdtojx202btw" path="res://Sprites/Mushroom/Mushroom-Idle.png" id="6_jeg56"]
 [ext_resource type="Script" path="res://ui/scenes/enemy_mushroom.gd" id="7_igdnn"]
 [ext_resource type="Script" uid="uid://c6wtaiwx263pb" path="res://Scripts/GameLogic/GameState.gd" id="8_tj4ba"]
@@ -72,8 +72,10 @@ animations = [{
 [node name="Game_tscn" type="Node2D" unique_id=1704856638]
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=471424798]
-offset_right = 2048.0
-offset_bottom = 1152.0
+offset_left = 4.0
+offset_top = -100.0
+offset_right = 2052.0
+offset_bottom = 1052.0
 color = Color(0.02745098, 0.3882353, 0.14117648, 1)
 
 [node name="UI Master" type="CanvasLayer" parent="." unique_id=147979917]
@@ -163,29 +165,33 @@ texture = ExtResource("11_1qd6q")
 
 [node name="EnemyHand" type="Node2D" parent="." unique_id=1320238796]
 position = Vector2(1275.0001, 501.00006)
-scale = Vector2(5, 5)
 
 [node name="EnemyCard1" type="Sprite2D" parent="EnemyHand" unique_id=514259876]
-position = Vector2(-224.80002, -35.80001)
+position = Vector2(-1143.9999, -256.00003)
+scale = Vector2(5, 5)
 texture = ExtResource("11_1qd6q")
 
 [node name="EnemyCard2" type="Sprite2D" parent="EnemyHand" unique_id=1267392567]
-position = Vector2(-183.20001, -35.80001)
+position = Vector2(-944.00006, -253.00009)
+scale = Vector2(5, 5)
 texture = ExtResource("11_1qd6q")
 
 [node name="EnemyCard3" type="Sprite2D" parent="EnemyHand" unique_id=1832058274]
-visible = false
-position = Vector2(-224.20001, -20.200008)
+position = Vector2(-944.00006, -181.00005)
+scale = Vector2(5, 5)
 texture = ExtResource("11_1qd6q")
 
 [node name="EnemyCard4" type="Sprite2D" parent="EnemyHand" unique_id=713550857]
-visible = false
-position = Vector2(-181.80002, -19.60001)
+position = Vector2(-1143.0001, -183.00005)
+scale = Vector2(5, 5)
 texture = ExtResource("11_1qd6q")
 
 [node name="EnemyHealth" type="Label" parent="EnemyHand" unique_id=1385259381]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = -391.00015
+offset_top = 29.999924
+offset_right = -366.00015
+offset_bottom = 69.99992
+theme_override_font_sizes/font_size = 25
 
 [node name="DeckVisual" type="Sprite2D" parent="." unique_id=1951779443]
 position = Vector2(1635, 521)
@@ -232,7 +238,12 @@ scale = Vector2(5, 5)
 texture = ExtResource("11_1qd6q")
 
 [node name="PLayerHealth" type="Label" parent="PlayerHand" unique_id=1063458512]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = -515.0
+offset_top = 59.0
+offset_right = -397.0
+offset_bottom = 170.0
+rotation = -0.049395584
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1
 
 [node name="Node2D" type="Node2D" parent="." unique_id=1382731052]
