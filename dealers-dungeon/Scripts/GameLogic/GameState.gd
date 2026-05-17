@@ -24,6 +24,8 @@ extends Node
 @onready var split_hand_card_3: Sprite2D = $"../SplitHand/SplitHandCard3"
 @onready var split_hand_card_4: Sprite2D = $"../SplitHand/SplitHandCard4"
 @onready var deck_visual: Sprite2D = $"../DeckVisual"
+# Untyped: enemy_mushroom.gd has no class_name, and we call its custom anim methods.
+@onready var enemy_mushroom = $"../Enemies/Mushroom/Enemy_Mushroom"
 
 # --- State Variables ---
 
@@ -768,7 +770,11 @@ func apply_player_attack(enemy: Enemy) -> void:
 	print("	You deal %d damage to %s! (HP: %d/%d)" % [damage, enemy.name, enemy.health, enemy.max_health])
 	update_health_ui()
 	if enemy.health <= 0:
+		if enemy_mushroom:
+			enemy_mushroom.dies()
 		remove_enemy(enemies.find(enemy))
+	elif enemy_mushroom:
+		enemy_mushroom.take_damage_Anim()
 
 func apply_enemy_attack(enemy: Enemy) -> void:
 	var damage = calculate_enemy_damage(enemy)
@@ -776,6 +782,8 @@ func apply_enemy_attack(enemy: Enemy) -> void:
 	RunData.player.health = max(RunData.player.health, 0)
 	print("	%s deals %d damage to you! (HP: %d/%d)" % [enemy.name, damage, RunData.player.health, RunData.player.max_health])
 	update_health_ui()
+	if enemy_mushroom:
+		enemy_mushroom.do_damage_Anim()
 
 # --- Print Functions ---
 
