@@ -1,0 +1,17 @@
+; Copy this file to `aws_config.cfg` (same folder) and fill in real values.
+; `aws_config.cfg` is gitignored - never commit it. This .example file is
+; safe to commit (no secrets) so teammates know the format.
+;
+; Godot ConfigFile format: values MUST be double-quoted strings, e.g.
+;   endpoint="https://..."   (NOT  endpoint=https://...  -> parse error)
+;
+; NO AWS CREDENTIALS BELONG HERE. The game talks to a Lambda + API Gateway
+; proxy that authenticates to Bedrock server-side with its IAM execution role
+; (see bedrock-proxy-migration.md). The game only needs the endpoint + API key.
+
+[proxy]
+; The API Gateway invoke URL for the POST /generate route.
+endpoint="https://<id>.execute-api.us-west-2.amazonaws.com/generate"
+
+; The API Gateway API key. Rotating this requires no game rebuild.
+api_key="YOUR_API_GATEWAY_KEY"
