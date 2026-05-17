@@ -8,7 +8,7 @@ var passive_items: Array[ItemData] = []
 func add_item(item: ItemData, player_data: PlayerData) -> bool:
 
 	if item.type == ItemData.ItemType.USABLE:
-
+		
 		if usable_items.size() >= max_slots:
 			print("Inventory full")
 			return false
