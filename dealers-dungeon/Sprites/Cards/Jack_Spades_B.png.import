@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vgvygvaxe7qc"
-path="res://.godot/imported/Clubs_5_R.png-698ee3d27a391a77430970a3c9aa186b.ctex"
+uid="uid://cg4qamfubaagq"
+path="res://.godot/imported/Jack_Spades_B.png-e3529ce2866db5f1bf76719f0553f6c7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cards/Clubs_5_R.png"
-dest_files=["res://.godot/imported/Clubs_5_R.png-698ee3d27a391a77430970a3c9aa186b.ctex"]
+source_file="res://Sprites/Cards/Jack_Spades_B.png"
+dest_files=["res://.godot/imported/Jack_Spades_B.png-e3529ce2866db5f1bf76719f0553f6c7.ctex"]
 
 [params]
 
