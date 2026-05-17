@@ -163,6 +163,8 @@ func print_status() -> void:
 
 # --- Encounters ---
 
+
+
 func get_stage_encounters() -> Array[EncounterData]:
 	var encounters: Array[EncounterData] = []
 
@@ -171,8 +173,7 @@ func get_stage_encounters() -> Array[EncounterData]:
 			["Rookie Dealer", 16, 80, 8],
 		]))
 		encounters.append(EncounterData.new("Double Trouble", [
-			["Dealer A", 17, 90, 10],
-			["Dealer B", 16, 70, 8],
+			["Veteran Dealer", 17, 90, 10],
 		]))
 		encounters.append(EncounterData.new("Stage 1 Boss", [
 			["Pit Boss", 18, 150, 15],
@@ -180,12 +181,9 @@ func get_stage_encounters() -> Array[EncounterData]:
 	elif current_stage == 2:
 		encounters.append(EncounterData.new("Veteran Dealers", [
 			["Sharp Eye", 17, 100, 12],
-			["Card Shark", 18, 110, 14],
 		]))
-		encounters.append(EncounterData.new("The Trio", [
-			["Dealer X", 17, 90, 10],
-			["Dealer Y", 16, 85, 10],
-			["Dealer Z", 18, 95, 12],
+		encounters.append(EncounterData.new("Card Shark", [
+			["Card Shark", 18, 110, 14],
 		]))
 		encounters.append(EncounterData.new("Stage 2 Boss", [
 			["High Roller", 19, 200, 20],

@@ -23,13 +23,11 @@ extends Node
 @onready var split_hand_card_2: Sprite2D = $"../SplitHand/SplitHandCard2"
 @onready var split_hand_card_3: Sprite2D = $"../SplitHand/SplitHandCard3"
 @onready var split_hand_card_4: Sprite2D = $"../SplitHand/SplitHandCard4"
-<<<<<<< Updated upstream
 @onready var deck_visual: Sprite2D = $"../DeckVisual"
 
-=======
 @onready var peek_button: Button = $"../UI Master/HBoxContainer/PeekButton"
 @onready var insurance_button: Button = $"../UI Master/HBoxContainer/InsuranceButton"
->>>>>>> Stashed changes
+ 	 	 	
 # --- State Variables ---
 
 var card_sprites: CardSprites = CardSprites.new()
@@ -493,6 +491,7 @@ func end_round() -> void:
 		battle_active = false
 		new_round.visible = false
 		begin_battle.visible = false
+		RunData.player.health += 100
 		get_tree().change_scene_to_file("res://ui/scenes/game_over.tscn")
 		return
 
@@ -501,6 +500,7 @@ func end_round() -> void:
 		print("")
 		print("=== BATTLE WON! ===")
 		RunData.player.money += 50
+		RunData.player.health + 30
 		battle_active = false
 		RunData.advance_encounter()
 		get_tree().change_scene_to_file("res://ui/scenes/shop.tscn")

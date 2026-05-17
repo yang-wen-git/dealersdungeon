@@ -5,10 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://dqtx8nw64g8em" path="res://Sprites/Stand.png" id="2_56i82"]
 [ext_resource type="Texture2D" uid="uid://dqxiqt4wcsd2h" path="res://Sprites/Split.png" id="3_84dds"]
 [ext_resource type="Texture2D" uid="uid://dtuneljbi76o6" path="res://Sprites/Cards/Card_Back_4.png" id="4_84dds"]
-[ext_resource type="Script" path="res://ui/scenes/deck_visual.gd" id="5_jeg56"]
+[ext_resource type="Script" uid="uid://4su13l4cqne3" path="res://ui/scenes/deck_visual.gd" id="5_jeg56"]
 [ext_resource type="Texture2D" uid="uid://tau57t7i5utf" path="res://Sprites/battle.png" id="5_ww5o5"]
 [ext_resource type="Texture2D" uid="uid://ckdtojx202btw" path="res://Sprites/Mushroom/Mushroom-Idle.png" id="6_jeg56"]
-[ext_resource type="Script" path="res://ui/scenes/enemy_mushroom.gd" id="7_igdnn"]
+[ext_resource type="Script" uid="uid://b6nal8syuru82" path="res://ui/scenes/enemy_mushroom.gd" id="7_igdnn"]
 [ext_resource type="Texture2D" uid="uid://4gh3yxncypj1" path="res://Sprites/Mushroom/Mushroom-Attack.png" id="8_livib"]
 [ext_resource type="Script" uid="uid://c6wtaiwx263pb" path="res://Scripts/GameLogic/GameState.gd" id="8_tj4ba"]
 [ext_resource type="Texture2D" uid="uid://e0c4hqgaerxi" path="res://Sprites/Cards/Card_Back_1.png" id="9_f0j42"]
@@ -17,8 +17,8 @@
 [ext_resource type="Texture2D" uid="uid://je45h52ft3h5" path="res://Sprites/Cards/Card_Back_3.png" id="11_1qd6q"]
 [ext_resource type="Texture2D" uid="uid://bgwob2w6f8dpu" path="res://Sprites/Mushroom/Mushroom-Hit.png" id="11_ww5o5"]
 [ext_resource type="Texture2D" uid="uid://0b3qlpvyq7d7" path="res://Sprites/newRound.png" id="15_xqw7t"]
-[ext_resource type="PackedScene" uid="uid://d24suxr16b5mx" path="res://ui/scenes/toad_dialog.tscn" id="17_yomj6"]
-[ext_resource type="Script" uid="uid://cplh3enapvmdd" path="res://ui/scenes/toad_dialog.gd" id="18_mk7gp"]
+[ext_resource type="PackedScene" path="res://ui/scenes/toad_dialog.tscn" id="17_yomj6"]
+[ext_resource type="Script" uid="uid://d3jq1bii7bnj4" path="res://ui/scenes/toad_dialog.gd" id="18_mk7gp"]
 [ext_resource type="PackedScene" path="res://ui/scenes/enemy_chat_box.tscn" id="19_chat"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0qua3"]
@@ -379,9 +379,11 @@ text = "Talk"
 
 [node name="PeekButton" type="Button" parent="UI Master/HBoxContainer" unique_id=1527752756]
 layout_mode = 2
+text = "peek"
 
 [node name="InsuranceButton" type="Button" parent="UI Master/HBoxContainer" unique_id=323565253]
 layout_mode = 2
+text = "insurance"
 
 [node name="GameState" type="Node" parent="." unique_id=1310702007]
 script = ExtResource("8_tj4ba")

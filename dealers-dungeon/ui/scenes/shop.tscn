@@ -21,8 +21,10 @@ texture = ExtResource("1_j4jyv")
 
 [node name="GridContainer" type="GridContainer" parent="." unique_id=1806270722]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 121.0
+offset_top = 68.0
+offset_right = 161.0
+offset_bottom = 108.0
 columns = 3
 
 [node name="CardSlot1" type="Panel" parent="GridContainer" unique_id=110725612]
@@ -68,8 +70,11 @@ text = "50 chips"
 
 [node name="BuyButton" type="Button" parent="GridContainer/CardSlot1" unique_id=149100369]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = 835.0
+offset_top = 744.0
+offset_right = 872.0
+offset_bottom = 775.0
+text = "buy"
 
 [node name="CardSlot2" type="Panel" parent="GridContainer" unique_id=1591871469]
 layout_mode = 2
@@ -114,8 +119,12 @@ text = "75 chips"
 
 [node name="BuyButton" type="Button" parent="GridContainer/CardSlot2" unique_id=1811508559]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = 1024.0
+offset_top = 744.0
+offset_right = 1061.0
+offset_bottom = 775.0
+text = "buy
+"
 
 [node name="CardSlot3" type="Panel" parent="GridContainer" unique_id=906461688]
 layout_mode = 2
@@ -160,19 +169,19 @@ text = "30 chips"
 
 [node name="BuyButton" type="Button" parent="GridContainer/CardSlot3" unique_id=367671112]
 layout_mode = 0
-offset_left = 810.0
-offset_top = 726.0
-offset_right = 884.0
-offset_bottom = 757.0
+offset_left = 1216.0
+offset_top = 736.0
+offset_right = 1290.0
+offset_bottom = 767.0
 theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
 text = "Buy"
 
 [node name="ContinueButton" type="Button" parent="." unique_id=1650090192]
 layout_mode = 0
-offset_left = 882.0
-offset_top = 831.0
-offset_right = 1236.0
-offset_bottom = 913.0
+offset_left = 992.0
+offset_top = 903.0
+offset_right = 1346.0
+offset_bottom = 985.0
 theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
 theme_override_font_sizes/font_size = 24
 text = "Continue"
