@@ -15,11 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bdm0xhxaxrprc" path="res://Sprites/Cards/Card_Back_2.png" id="10_1qd6q"]
 [ext_resource type="Texture2D" uid="uid://je45h52ft3h5" path="res://Sprites/Cards/Card_Back_3.png" id="11_1qd6q"]
 [ext_resource type="Texture2D" uid="uid://bgwob2w6f8dpu" path="res://Sprites/Mushroom/Mushroom-Hit.png" id="11_ww5o5"]
-<<<<<<< HEAD
 [ext_resource type="Texture2D" uid="uid://0b3qlpvyq7d7" path="res://Sprites/newRound.png" id="15_xqw7t"]
-=======
-[ext_resource type="PackedScene" uid="uid://c4ycb13o8puwy" path="res://ui/scenes/toad_text_box.tscn" id="16_ww5o5"]
->>>>>>> 38a6d195b97d7be62c862d1a9a1474d4ea32285c
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0qua3"]
 atlas = ExtResource("8_livib")
@@ -473,9 +469,13 @@ position = Vector2(-1154.0001, 109.49999)
 scale = Vector2(5, 5)
 texture = ExtResource("11_1qd6q")
 
-[node name="NPCDialog" type="Node2D" parent="." unique_id=1382731052]
-position = Vector2(150, 108)
+[node name="PLayerHealth" type="Label" parent="PlayerHand" unique_id=1063458512]
+offset_left = -515.0
+offset_top = 59.0
+offset_right = -397.0
+offset_bottom = 170.0
+rotation = -0.049395584
+theme_override_font_sizes/font_size = 25
+horizontal_alignment = 1
 
-[node name="ToadTextBox" parent="NPCDialog" unique_id=661730395 instance=ExtResource("16_ww5o5")]
-position = Vector2(1034, 26)
-scale = Vector2(2, 2)
+[node name="Node2D" type="Node2D" parent="." unique_id=1382731052]
