@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c4ycb13o8puwy"]
+
+[ext_resource type="Script" uid="uid://c43ie6kkkbcfk" path="res://ui/scenes/npc_text_box.gd" id="1_0pim8"]
+
+[node name="ToadTextBox" type="Node2D" unique_id=661730395]
+script = ExtResource("1_0pim8")
