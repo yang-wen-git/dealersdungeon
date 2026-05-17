@@ -6,3 +6,4 @@
 script = ExtResource("1_rnn5a")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=784231864]
+script = ExtResource("1_rnn5a")
