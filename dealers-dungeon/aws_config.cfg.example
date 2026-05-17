@@ -1,0 +1,13 @@
+; Copy this file to `aws_config.cfg` (same folder) and fill in real values.
+; `aws_config.cfg` is gitignored — never commit it. This .example file is
+; safe to commit (no secrets) so teammates know the format.
+
+[aws]
+access_key_id=YOUR_AWS_ACCESS_KEY_ID
+secret_access_key=YOUR_AWS_SECRET_ACCESS_KEY
+
+; Optional — these fall back to the defaults in bedrock_client.gd if omitted.
+; region must be a real AWS region where your Bedrock model is enabled,
+; e.g. us-east-1 or us-west-2 (NOT "us-west-02").
+region=us-west-2
+model_id=amazon.nova-lite-v1:0
