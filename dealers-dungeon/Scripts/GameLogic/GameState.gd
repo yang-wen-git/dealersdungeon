@@ -1,4 +1,3 @@
-
 class_name GameState
 extends Node
 
@@ -6,8 +5,12 @@ extends Node
 @onready var hit_button: Button = $"../UI Master/HBoxContainer/HitButton"
 @onready var stand_button: Button = $"../UI Master/HBoxContainer/StandButton"
 @onready var double_button: Button = $"../UI Master/HBoxContainer/DoubleButton"
+@onready var new_round: Button = $"../UI Master/HBoxContainer/NewRound"
+@onready var begin_battle: Button = $"../UI Master/HBoxContainer/BeginBattle"
 @onready var dealer_score_label: Label = $"../UI Master/DealerScoreLabel"
 @onready var score_label: Label = $"../UI Master/ScoreLabel"
+@onready var p_layer_health: Label = $"../PlayerHand/PLayerHealth"
+@onready var enemy_health: Label = $"../EnemyHand/EnemyHealth"
 @onready var player_card_1: Sprite2D = $"../PlayerHand/PlayerCard1"
 @onready var player_card_2: Sprite2D = $"../PlayerHand/PlayerCard2"
 @onready var player_card_3: Sprite2D = $"../PlayerHand/PlayerCard3"
@@ -48,9 +51,17 @@ func _ready():
 	hit_button.pressed.connect(_on_hit_pressed)
 	stand_button.pressed.connect(_on_stand_pressed)
 	double_button.pressed.connect(_on_split_pressed)
+	new_round.pressed.connect(_on_new_round_pressed)
+	begin_battle.pressed.connect(_on_begin_battle_pressed)
 	hide_all_cards()
 	hide_split_hand()
 	set_buttons_visible(false)
+	new_round.visible = false
+	begin_battle.visible = true
+	p_layer_health.text = ""
+	enemy_health.text = ""
+	score_label.text = ""
+	dealer_score_label.text = ""
 	show_pre_battle()
 
 # --- Button Callbacks ---
@@ -63,6 +74,12 @@ func _on_stand_pressed() -> void:
 
 func _on_split_pressed() -> void:
 	split()
+
+func _on_new_round_pressed() -> void:
+	start_new_round()
+
+func _on_begin_battle_pressed() -> void:
+	start_battle()
 
 # --- UI Update Functions ---
 
@@ -89,6 +106,14 @@ func set_buttons_visible(show: bool) -> void:
 	hit_button.visible = show
 	stand_button.visible = show
 	double_button.visible = show
+
+func update_health_ui() -> void:
+	p_layer_health.text = "HP: %d/%d" % [run_data.player.health, run_data.player.max_health]
+	if get_active_enemies().is_empty():
+		enemy_health.text = ""
+	else:
+		var enemy = get_active_enemies()[0]
+		enemy_health.text = "HP: %d/%d" % [enemy.health, enemy.max_health]
 
 func update_player_hand_ui() -> void:
 	var card_sprites_arr = get_player_card_sprites()
@@ -180,6 +205,8 @@ func show_pre_battle() -> void:
 	hide_all_cards()
 	hide_split_hand()
 	set_buttons_visible(false)
+	new_round.visible = false
+	begin_battle.visible = true
 	score_label.text = ""
 	dealer_score_label.text = ""
 
@@ -202,6 +229,7 @@ func start_battle() -> void:
 	registry = run_data.registry
 	deck = run_data.create_battle_deck()
 	battle_active = true
+	begin_battle.visible = false
 
 	enemies.clear()
 	for config in encounter.enemy_configs:
@@ -212,6 +240,7 @@ func start_battle() -> void:
 		enemies.append(enemy)
 
 	current_round = 0
+	update_health_ui()
 	start_new_round()
 
 # --- Enemy Management ---
@@ -269,8 +298,10 @@ func start_new_round() -> void:
 	# Update UI for new round
 	hide_all_cards()
 	hide_split_hand()
+	new_round.visible = false
 	update_player_hand_ui()
 	update_enemy_hand_ui_hidden()
+	update_health_ui()
 	set_buttons_visible(true)
 	double_button.visible = can_split()
 
@@ -343,12 +374,15 @@ func end_round() -> void:
 
 	game_active = false
 	set_buttons_visible(false)
+	update_health_ui()
 
 	# Check player death
 	if run_data.player.health <= 0:
 		print("")
 		print("=== YOU DIED. Run over. ===")
 		battle_active = false
+		new_round.visible = false
+		begin_battle.visible = false
 		print("Press [Q] to quit.")
 		return
 
@@ -357,6 +391,8 @@ func end_round() -> void:
 		print("")
 		print("=== BATTLE WON! ===")
 		battle_active = false
+		new_round.visible = false
+		begin_battle.visible = true
 		run_data.advance_encounter()
 		print("Press [N] for next encounter or [Q] to quit.")
 		return
@@ -366,6 +402,7 @@ func end_round() -> void:
 	for enemy in get_active_enemies():
 		print("	%s HP: %d/%d" % [enemy.name, enemy.health, enemy.max_health])
 	print("")
+	new_round.visible = true
 	print("Press [R] for next round or [Q] to quit.")
 
 # --- Player Actions ---
@@ -621,6 +658,7 @@ func apply_player_attack(enemy: Enemy) -> void:
 	var damage = calculate_player_damage()
 	enemy.take_damage(damage)
 	print("	You deal %d damage to %s! (HP: %d/%d)" % [damage, enemy.name, enemy.health, enemy.max_health])
+	update_health_ui()
 	if enemy.health <= 0:
 		remove_enemy(enemies.find(enemy))
 
@@ -629,6 +667,7 @@ func apply_enemy_attack(enemy: Enemy) -> void:
 	run_data.player.health -= damage
 	run_data.player.health = max(run_data.player.health, 0)
 	print("	%s deals %d damage to you! (HP: %d/%d)" % [enemy.name, damage, run_data.player.health, run_data.player.max_health])
+	update_health_ui()
 
 # --- Print Functions ---
 
