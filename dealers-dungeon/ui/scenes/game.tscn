@@ -378,6 +378,12 @@ theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
 theme_override_font_sizes/font_size = 24
 text = "Talk"
 
+[node name="PeekButton" type="Button" parent="UI Master/HBoxContainer" unique_id=1527752756]
+layout_mode = 2
+
+[node name="InsuranceButton" type="Button" parent="UI Master/HBoxContainer" unique_id=323565253]
+layout_mode = 2
+
 [node name="GameState" type="Node" parent="." unique_id=1310702007]
 script = ExtResource("8_tj4ba")
 
