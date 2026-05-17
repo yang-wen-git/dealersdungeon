@@ -18,6 +18,7 @@ config/icon="res://Sprites/icon.svg"
 [autoload]
 
 BedrockClient="*uid://cc10uyp0128p0"
+RunData="*uid://dmu8bjj82rfic"
 
 [display]
 
