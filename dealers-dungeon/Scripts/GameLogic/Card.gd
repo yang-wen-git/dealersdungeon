@@ -17,11 +17,11 @@ func _init(card_id: int, card_suit: String, card_rank: String):
 func _determine_value() -> int:
 	match rank:
 		"A":
-			return 11  # Default to 11, can be switched to 1
+			return 11
 		"J", "Q", "K":
 			return 10
 		_:
 			return int(rank)
 
 func _to_string() -> String:
-	return "[%d] %s of %s (val: %d)" % [id, rank, suit, value]
+	return "%s of %s" % [rank, suit]
