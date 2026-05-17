@@ -3,11 +3,11 @@
 [ext_resource type="Script" uid="uid://diwemd1p23481" path="res://ui/scenes/title_screen.gd" id="1_moct7"]
 [ext_resource type="Texture2D" uid="uid://bo1tqk1vthoiw" path="res://assets/tile_0111.png" id="1_ucunv"]
 [ext_resource type="Texture2D" uid="uid://baw6s0l0ycvsv" path="res://assets/tile_0112.png" id="2_2y6yc"]
-[ext_resource type="Texture2D" uid="uid://66we8ryiw4dd" path="res://Sprites/Ace.png" id="2_bjrtg"]
-[ext_resource type="Texture2D" uid="uid://dtuhn788pn72x" path="res://Sprites/King.png" id="2_moct7"]
-[ext_resource type="Texture2D" uid="uid://bmf7dyqdraa3p" path="res://Sprites/Joker2.png" id="3_bjrtg"]
+[ext_resource type="Texture2D" uid="uid://c1jvx04mxk606" path="res://Sprites/Cards/Ace.png" id="2_moct7"]
+[ext_resource type="Texture2D" uid="uid://1tsi75ee81w7" path="res://Sprites/Cards/Jack_B.png" id="3_bjrtg"]
 [ext_resource type="Texture2D" uid="uid://qpl165otq162" path="res://assets/tile_0108.png" id="3_kbe5p"]
 [ext_resource type="Texture2D" uid="uid://cbnultgxq4hoh" path="res://Sprites/Start.png" id="4_owypx"]
+[ext_resource type="Texture2D" uid="uid://dks3u0tqnkdbf" path="res://Sprites/Cards/Joker2.png" id="4_qptem"]
 [ext_resource type="Texture2D" uid="uid://d2pqsa2r1wg0e" path="res://assets/tile_0119.png" id="4_rm1cl"]
 [ext_resource type="Texture2D" uid="uid://urml1m7se1cd" path="res://assets/tile_0130.png" id="5_7ubq4"]
 [ext_resource type="Texture2D" uid="uid://byjpmmb4bq1sm" path="res://Sprites/End.png" id="5_qptem"]
@@ -36,43 +36,42 @@ color = Color(0.101960786, 0.101960786, 0.18039216, 1)
 position = Vector2(404, 566)
 rotation = -0.31066862
 scale = Vector2(4.8, 4.8)
-texture = ExtResource("2_bjrtg")
+texture = ExtResource("2_moct7")
 
 [node name="King" type="Sprite2D" parent="." unique_id=2028496116]
-position = Vector2(1000, 176.00002)
+position = Vector2(1011, 172)
 scale = Vector2(4.8, 4.8)
-texture = ExtResource("2_moct7")
+texture = ExtResource("3_bjrtg")
 
 [node name="Joker" type="Sprite2D" parent="." unique_id=395501550]
 position = Vector2(1543, 478.99994)
 rotation = 0.24958208
 scale = Vector2(4.8, 4.8)
-texture = ExtResource("3_bjrtg")
+texture = ExtResource("4_qptem")
 
 [node name="PlayButton" type="Button" parent="." unique_id=1510423652]
 layout_mode = 0
-offset_left = 662.0
-offset_top = 238.0
-offset_right = 1370.0
-offset_bottom = 946.0
+offset_left = 674.0
+offset_top = 240.0
+offset_right = 1382.0
+offset_bottom = 948.0
 icon = ExtResource("4_owypx")
 flat = true
 
 [node name="EndButton" type="Button" parent="." unique_id=1000351311]
 layout_mode = 0
-offset_left = 661.0
-offset_top = 561.0
-offset_right = 1369.0
-offset_bottom = 1269.0
+offset_left = 673.0
+offset_top = 563.0
+offset_right = 1381.0
+offset_bottom = 1271.0
 icon = ExtResource("5_qptem")
-flat = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=304910415]
 layout_mode = 0
-offset_left = -621.0
-offset_top = 309.0
-offset_right = 2637.0
-offset_bottom = 439.0
+offset_left = -599.0
+offset_top = 298.0
+offset_right = 2659.0
+offset_bottom = 428.0
 theme_override_constants/separation = 2
 alignment = 1
 metadata/_edit_group_ = true
