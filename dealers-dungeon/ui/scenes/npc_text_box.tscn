@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://clqahp7frkcum"]
+
+[ext_resource type="Script" uid="uid://c43ie6kkkbcfk" path="res://ui/scenes/npc_text_box.gd" id="1_uvleg"]
+
+[node name="NPCTextBox" type="Node2D" unique_id=263653611]
+script = ExtResource("1_uvleg")

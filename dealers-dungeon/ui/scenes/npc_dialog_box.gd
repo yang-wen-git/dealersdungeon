@@ -20,6 +20,8 @@ enum Anchor {
 @export var anchor_point: Vector2 = Vector2(1024, 980)
 @export var screen_margin: float = 24.0
 @export var start_hidden: bool = true
+@export var use_manual_position: bool = true
+@export var manual_position: Vector2 = Vector2.ZERO
 
 ## Characters per second for the typewriter reveal. 0 = instant (no animation).
 @export var typewriter_cps: float = 40.0
@@ -31,7 +33,7 @@ enum Anchor {
 @export var font_path: String = "res://assets/fonts/PixelifySans-Regular.ttf"
 
 ## Font size for dialog text.
-@export var font_size: int = 20
+@export var font_size: int = 29
 
 ## Text color.
 @export var text_color: Color = Color(0.0, 0.0, 0.0, 1.0)
@@ -65,6 +67,9 @@ func _ready() -> void:
 	_label.custom_minimum_size.x = maxf(0.0, max_width - pad_x)
 
 	_panel.resized.connect(_on_panel_resized)
+
+	if use_manual_position:
+		manual_position = position
 
 	if start_hidden:
 		visible = false
@@ -200,6 +205,10 @@ func _on_panel_resized() -> void:
 
 
 func _reposition() -> void:
+	if use_manual_position:
+		position = manual_position.round()
+		return
+
 	var vp := get_viewport_rect().size
 	var bs := size
 	var pos := anchor_point
