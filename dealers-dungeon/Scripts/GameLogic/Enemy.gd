@@ -5,11 +5,13 @@ var name: String
 var stand_value: int
 var hand: Hand
 var is_active: bool
+var round_resolved: bool = false
 
 var max_health: int = 100
 var health: int = 100
 var damage: int = 10
 var defense: float = 0.0
+
 
 func _init(enemy_name: String, enemy_stand_value: int = 17):
 	name = enemy_name
