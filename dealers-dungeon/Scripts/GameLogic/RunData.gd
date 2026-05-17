@@ -1,31 +1,33 @@
-class_name RunData
-extends RefCounted
+extends Node
 
 var registry: CardRegistry
 var player: PlayerData
 var inventory: InventoryData
 
-# Run progression
 var current_stage: int = 1
 var current_encounter: int = 0
 var max_encounters_per_stage: int = 3
-
-# The player's deck (persists across battles)
 var player_card_ids: Array[int] = []
 
-func _init():
+func _ready():
+	start_new_run()
+
+func start_new_run() -> void:
 	registry = CardRegistry.new()
 	registry.build_standard_deck()
 	player = PlayerData.new()
 	inventory = InventoryData.new()
+	current_stage = 1
+	current_encounter = 0
 	build_starter_deck()
+
+func reset() -> void:
+	start_new_run()
 
 func build_starter_deck() -> void:
 	player_card_ids.clear()
 	for key in registry.cards.keys():
 		player_card_ids.append(key)
-
-# --- Deck Modification (rewards/shop) ---
 
 func add_card(card: Card) -> void:
 	registry.register(card)
@@ -46,8 +48,6 @@ func upgrade_card(card_id: int, new_value: int) -> void:
 func get_card_count() -> int:
 	return player_card_ids.size()
 
-# --- Provides a fresh deck for each battle ---
-
 func create_battle_deck() -> Deck:
 	var battle_deck = Deck.new(registry)
 	battle_deck.draw_pile.clear()
@@ -55,8 +55,6 @@ func create_battle_deck() -> Deck:
 		battle_deck.draw_pile.append(card_id)
 	battle_deck.shuffle()
 	return battle_deck
-
-# --- Gold (delegates to PlayerData) ---
 
 func add_gold(amount: int) -> void:
 	player.money += amount
@@ -70,15 +68,11 @@ func spend_gold(amount: int) -> bool:
 	print("Not enough gold! Need %d, have %d." % [amount, player.money])
 	return false
 
-# --- Items (delegates to InventoryData) ---
-
 func add_item(item: ItemData) -> bool:
 	var success = inventory.add_item(item, player)
 	if success and item.type == ItemData.ItemType.PASSIVE:
 		player.add_passive_bonus(item.effect, item.value)
 	return success
-
-# --- Progression ---
 
 func advance_encounter() -> void:
 	current_encounter += 1
@@ -89,8 +83,6 @@ func advance_encounter() -> void:
 
 func is_run_over() -> bool:
 	return player.health <= 0
-
-# --- View Deck ---
 
 func print_deck() -> void:
 	print("=== Your Deck (%d cards) ===" % get_card_count())
@@ -107,10 +99,7 @@ func print_status() -> void:
 	print("	Deck: %d cards" % get_card_count())
 	print("	Stage: %d | Encounter: %d/%d" % [current_stage, current_encounter, max_encounters_per_stage])
 
-var current_encounter_data: EncounterData = null
-
 func get_stage_encounters() -> Array[EncounterData]:
-	# Later this could be randomized or pulled from a pool
 	var encounters: Array[EncounterData] = []
 
 	if current_stage == 1:
