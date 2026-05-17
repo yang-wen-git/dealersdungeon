@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://d4kesv7tcqigc"]
+
+[ext_resource type="Script" uid="uid://ck34kiteiva3q" path="res://Scripts/GameLogic/card_visual.gd" id="1_rnn5a"]
+
+[node name="CardVisual" type="Node2D" unique_id=1668120866]
+script = ExtResource("1_rnn5a")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=784231864]
+script = ExtResource("1_rnn5a")

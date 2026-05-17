@@ -3,6 +3,10 @@ extends Node
 
 # --- State Variables ---
 
+@onready var player_hand_area = $"../PlayerHandArea"
+@onready var dealer_hand_area = $"../DealerHandArea"
+var card_visual_scene = preload("res://ui/scenes/CardVisual.tscn")
+
 var registry: CardRegistry
 var run_data: RunData
 var deck: Deck
@@ -125,6 +129,8 @@ func start_new_round() -> void:
 	print_player_hand()
 	print_all_dealer_hands_hidden()
 
+	update_card_visuals()
+
 	if check_blackjack():
 		return
 
@@ -213,6 +219,9 @@ func hit() -> void:
 
 	var current_hand = player_hands[current_hand_index]
 	draw_to_hand(current_hand)
+
+	update_card_visuals()
+
 	print("")
 	print_current_hand()
 
@@ -487,3 +496,51 @@ func print_single_dealer_revealed(enemy: Enemy) -> void:
 	for card_id in enemy.hand.cards:
 		print("	", registry.get_card(card_id))
 	print("	Total: %d" % get_hand_value(enemy.hand))
+
+
+#dont delete important function
+
+func update_card_visuals() -> void:
+
+	for child in player_hand_area.get_children():
+		child.queue_free()
+
+	for child in dealer_hand_area.get_children():
+		child.queue_free()
+
+	if player_hands.is_empty():
+		return
+
+	# Player cards
+	for i in range(player_hands[0].cards.size()):
+
+		var card_id = player_hands[0].cards[i]
+		var card = registry.get_card(card_id)
+
+		var visual = card_visual_scene.instantiate()
+
+		visual.position = Vector2(i * 100, 0)
+
+		visual.set_front(card.texture_path)
+
+		player_hand_area.add_child(visual)
+
+	# Dealer cards
+	if enemies.is_empty():
+		return
+
+	for i in range(enemies[0].hand.cards.size()):
+
+		var visual = card_visual_scene.instantiate()
+
+		visual.position = Vector2(i * 100, 0)
+
+		if i == 0:
+			var card_id = enemies[0].hand.cards[i]
+			var card = registry.get_card(card_id)
+
+			visual.set_front(card.texture_path)
+		else:
+			visual.set_back()
+
+		dealer_hand_area.add_child(visual)

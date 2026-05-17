@@ -5,6 +5,66 @@
 [ext_resource type="Texture2D" uid="uid://dqxiqt4wcsd2h" path="res://Sprites/Split.png" id="3_84dds"]
 [ext_resource type="Texture2D" uid="uid://dtuneljbi76o6" path="res://Sprites/Cards/Card_Back_4.png" id="4_84dds"]
 [ext_resource type="Script" uid="uid://4su13l4cqne3" path="res://ui/scenes/deck_visual.gd" id="5_jeg56"]
+[ext_resource type="Texture2D" uid="uid://ckdtojx202btw" path="res://Sprites/Mushroom/Mushroom-Idle.png" id="6_jeg56"]
+[ext_resource type="Script" uid="uid://b6nal8syuru82" path="res://ui/scenes/enemy_mushroom.gd" id="7_igdnn"]
+[ext_resource type="Script" uid="uid://c6wtaiwx263pb" path="res://Scripts/GameLogic/GameState.gd" id="8_tj4ba"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igdnn"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(0, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tj4ba"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(80, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jekkv"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(160, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0j42"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(240, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qd6q"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(320, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rgdf"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(400, 0, 80, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1nbu"]
+atlas = ExtResource("6_jeg56")
+region = Rect2(480, 0, 80, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_livib"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igdnn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tj4ba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jekkv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f0j42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qd6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rgdf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u1nbu")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [node name="Game_tscn" type="Node2D" unique_id=1704856638]
 
@@ -56,8 +116,25 @@ theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
 theme_override_font_sizes/font_size = 24
 icon = ExtResource("3_84dds")
 
-[node name="DeckVisual" type="Sprite2D" parent="UI Master" unique_id=1951779443]
-position = Vector2(1710.9999, 513)
+[node name="DeckVisual" type="Sprite2D" parent="." unique_id=1951779443]
+position = Vector2(1647, 554)
 scale = Vector2(5, 5)
 texture = ExtResource("4_84dds")
 script = ExtResource("5_jeg56")
+
+[node name="Enemy_Mushroom" type="AnimatedSprite2D" parent="." unique_id=927883438]
+position = Vector2(1000, 163.00003)
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_livib")
+animation = &"idle"
+frame_progress = 0.847172
+script = ExtResource("7_igdnn")
+
+[node name="PlayerHandArea" type="Node2D" parent="." unique_id=1501980076]
+position = Vector2(937, 688)
+
+[node name="DealerHandArea" type="Node2D" parent="." unique_id=435782365]
+position = Vector2(927, 429)
+
+[node name="GameState" type="Node" parent="." unique_id=1310702007]
+script = ExtResource("8_tj4ba")
