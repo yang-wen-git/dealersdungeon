@@ -3,7 +3,7 @@ extends Node2D
 const DIALOG_BOX_SCENE := preload("res://ui/scenes/npc_dialog_box.tscn")
 
 ## The prompt sent to the AI. Fill this in per instance in the inspector.
-@export_multiline var prompt: String = "You are big toad, you try to act tough but you are cute. A challenger approaches ready to have a blackjack duel. Keep the response to two sentences"
+@export_multiline var prompt: String = "You are big toad, you act tough and smart like your the king of Blackjack. A challenger approaches ready to have a blackjack duel. Keep the response to two sentences"
 
 ## How close the player needs to be to interact (pixels).
 @export var interaction_radius: float = 100.0
