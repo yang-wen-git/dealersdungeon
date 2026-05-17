@@ -49,6 +49,17 @@ var player_busted: bool = false
 var player_stood: bool = false
 var _is_animating: bool = false
 
+# --- Health bars (built in code, parented under "UI Master") ---
+const HP_BAR_W: float = 620.0
+const HP_BAR_H: float = 50.0
+const HP_BAR_BORDER: float = 4.0
+var player_hp_root: Control
+var player_hp_fill: ColorRect
+var player_hp_label: Label
+var enemy_hp_root: Control
+var enemy_hp_fill: ColorRect
+var enemy_hp_label: Label
+
 # --- Initialization ---
 
 func _ready():
@@ -66,6 +77,8 @@ func _ready():
 	enemy_health.text = ""
 	score_label.text = ""
 	dealer_score_label.text = ""
+	_build_health_bars()
+	update_health_ui()
 	show_pre_battle()
 
 # --- Button Callbacks ---
@@ -112,12 +125,93 @@ func set_buttons_visible(show: bool) -> void:
 	double_button.visible = show
 
 func update_health_ui() -> void:
-	p_layer_health.text = "HP: %d/%d" % [RunData.player.health, RunData.player.max_health]
+	# Text labels are superseded by the bars; keep them blank.
+	p_layer_health.text = ""
+	enemy_health.text = ""
+	if player_hp_fill == null:
+		return  # bars not built (e.g. orphan scene without "UI Master")
+
+	_set_hp_bar(player_hp_fill, player_hp_label, RunData.player.health, RunData.player.max_health, "PLAYER")
+
 	if get_active_enemies().is_empty():
-		enemy_health.text = ""
+		enemy_hp_root.visible = false
 	else:
 		var enemy = get_active_enemies()[0]
-		enemy_health.text = "HP: %d/%d" % [enemy.health, enemy.max_health]
+		enemy_hp_root.visible = true
+		_set_hp_bar(enemy_hp_fill, enemy_hp_label, enemy.health, enemy.max_health, enemy.name.to_upper())
+
+
+func _set_hp_bar(fill: ColorRect, label: Label, hp: int, max_hp: int, who: String) -> void:
+	var inner_w := HP_BAR_W - HP_BAR_BORDER * 2.0
+	var inner_h := HP_BAR_H - HP_BAR_BORDER * 2.0
+	var ratio := 0.0
+	if max_hp > 0:
+		ratio = clampf(float(hp) / float(max_hp), 0.0, 1.0)
+	fill.size = Vector2(inner_w * ratio, inner_h)
+	label.text = "%s    %d / %d" % [who, max(hp, 0), max_hp]
+
+
+func _build_health_bars() -> void:
+	var ui := get_node_or_null("../UI Master")
+	if ui == null:
+		return
+
+	enemy_hp_root = _make_hp_bar(Vector2((2048.0 - HP_BAR_W) * 0.2, 40.0), Color(0.85, 0.24, 0.21))
+	ui.add_child(enemy_hp_root)
+	enemy_hp_fill = enemy_hp_root.get_node("Fill") as ColorRect
+	enemy_hp_label = enemy_hp_root.get_node("BarText") as Label
+	enemy_hp_root.visible = false
+
+	player_hp_root = _make_hp_bar(Vector2((2048.0 - HP_BAR_W) * 0.5, 1066.0), Color(0.29, 0.77, 0.35))
+	ui.add_child(player_hp_root)
+	player_hp_fill = player_hp_root.get_node("Fill") as ColorRect
+	player_hp_label = player_hp_root.get_node("BarText") as Label
+
+
+func _make_hp_bar(pos: Vector2, fill_color: Color) -> Control:
+	var inner_w := HP_BAR_W - HP_BAR_BORDER * 2.0
+	var inner_h := HP_BAR_H - HP_BAR_BORDER * 2.0
+
+	var root := Control.new()
+	root.position = pos
+	root.size = Vector2(HP_BAR_W, HP_BAR_H)
+	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var bg := ColorRect.new()
+	bg.color = Color(0, 0, 0, 0.75)
+	bg.size = Vector2(HP_BAR_W, HP_BAR_H)
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(bg)
+
+	var track := ColorRect.new()
+	track.color = Color(0.13, 0.11, 0.11)
+	track.position = Vector2(HP_BAR_BORDER, HP_BAR_BORDER)
+	track.size = Vector2(inner_w, inner_h)
+	track.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(track)
+
+	var fill := ColorRect.new()
+	fill.name = "Fill"
+	fill.color = fill_color
+	fill.position = Vector2(HP_BAR_BORDER, HP_BAR_BORDER)
+	fill.size = Vector2(inner_w, inner_h)
+	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(fill)
+
+	var text := Label.new()
+	text.name = "BarText"
+	text.position = Vector2.ZERO
+	text.size = Vector2(HP_BAR_W, HP_BAR_H)
+	text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	text.add_theme_font_size_override("font_size", 28)
+	text.add_theme_color_override("font_color", Color(1, 1, 1))
+	text.add_theme_color_override("font_outline_color", Color(0, 0, 0))
+	text.add_theme_constant_override("outline_size", 6)
+	text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(text)
+
+	return root
 
 func update_player_hand_ui() -> void:
 	var card_sprites_arr = get_player_card_sprites()
