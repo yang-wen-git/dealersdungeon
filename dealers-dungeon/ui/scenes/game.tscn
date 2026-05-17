@@ -129,32 +129,52 @@ icon = ExtResource("3_84dds")
 script = ExtResource("8_tj4ba")
 
 [node name="SplitHand" type="Node2D" parent="." unique_id=1710380589]
-position = Vector2(1647, 554)
+position = Vector2(1296.0001, 591.00006)
 scale = Vector2(5, 5)
 
 [node name="SplitHandCard1" type="Sprite2D" parent="SplitHand" unique_id=2022415695]
+position = Vector2(-156.20001, 54.999996)
+texture = ExtResource("11_1qd6q")
 
 [node name="SplitHandCard2" type="Sprite2D" parent="SplitHand" unique_id=2026912396]
+position = Vector2(-116.60001, 55.399975)
 scale = Vector2(0.99999994, 0.99999994)
+texture = ExtResource("11_1qd6q")
 
 [node name="SplitHandCard3" type="Sprite2D" parent="SplitHand" unique_id=1854939187]
+visible = false
+position = Vector2(-155.20001, 74.39999)
+texture = ExtResource("11_1qd6q")
 
 [node name="SplitHandCard4" type="Sprite2D" parent="SplitHand" unique_id=1977066096]
+visible = false
+position = Vector2(-116.20003, 75.999985)
+texture = ExtResource("11_1qd6q")
 
 [node name="EnemyHand" type="Node2D" parent="." unique_id=1320238796]
-position = Vector2(1647, 554)
+position = Vector2(1275.0001, 501.00006)
 scale = Vector2(5, 5)
 
 [node name="EnemyCard1" type="Sprite2D" parent="EnemyHand" unique_id=514259876]
+position = Vector2(-224.80002, -35.80001)
+texture = ExtResource("11_1qd6q")
 
 [node name="EnemyCard2" type="Sprite2D" parent="EnemyHand" unique_id=1267392567]
+position = Vector2(-183.20001, -35.80001)
+texture = ExtResource("11_1qd6q")
 
 [node name="EnemyCard3" type="Sprite2D" parent="EnemyHand" unique_id=1832058274]
+visible = false
+position = Vector2(-224.20001, -20.200008)
+texture = ExtResource("11_1qd6q")
 
 [node name="EnemyCard4" type="Sprite2D" parent="EnemyHand" unique_id=713550857]
+visible = false
+position = Vector2(-181.80002, -19.60001)
+texture = ExtResource("11_1qd6q")
 
 [node name="DeckVisual" type="Sprite2D" parent="." unique_id=1951779443]
-position = Vector2(1647, 554)
+position = Vector2(1635, 521)
 scale = Vector2(5, 5)
 texture = ExtResource("4_84dds")
 script = ExtResource("5_jeg56")
@@ -165,8 +185,8 @@ position = Vector2(937, 688)
 [node name="Mushroom" type="Node2D" parent="Enemies" unique_id=466098753]
 
 [node name="Enemy_Mushroom" type="AnimatedSprite2D" parent="Enemies/Mushroom" unique_id=927883438]
-position = Vector2(172.99994, -497)
-scale = Vector2(5, 5)
+position = Vector2(-2.0000458, -495.00003)
+scale = Vector2(10, 10)
 sprite_frames = SubResource("SpriteFrames_livib")
 animation = &"idle"
 frame_progress = 0.847172
