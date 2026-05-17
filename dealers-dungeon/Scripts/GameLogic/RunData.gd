@@ -3,11 +3,14 @@ extends Node
 var registry: CardRegistry
 var player: PlayerData
 var inventory: InventoryData
+var item_registry: ItemRegistry
 
 var current_stage: int = 1
 var current_encounter: int = 0
 var max_encounters_per_stage: int = 3
 var player_card_ids: Array[int] = []
+var owned_items: Array[int] = []
+var insurance_active: bool = false
 
 func _ready():
 	start_new_run()
@@ -17,8 +20,11 @@ func start_new_run() -> void:
 	registry.build_standard_deck()
 	player = PlayerData.new()
 	inventory = InventoryData.new()
+	item_registry = ItemRegistry.new()
 	current_stage = 1
 	current_encounter = 0
+	owned_items.clear()
+	insurance_active = false
 	build_starter_deck()
 
 func reset() -> void:
@@ -28,6 +34,8 @@ func build_starter_deck() -> void:
 	player_card_ids.clear()
 	for key in registry.cards.keys():
 		player_card_ids.append(key)
+
+# --- Deck Modification ---
 
 func add_card(card: Card) -> void:
 	registry.register(card)
@@ -56,6 +64,8 @@ func create_battle_deck() -> Deck:
 	battle_deck.shuffle()
 	return battle_deck
 
+# --- Gold ---
+
 func add_gold(amount: int) -> void:
 	player.money += amount
 	print("+ %d gold (Total: %d)" % [amount, player.money])
@@ -68,11 +78,61 @@ func spend_gold(amount: int) -> bool:
 	print("Not enough gold! Need %d, have %d." % [amount, player.money])
 	return false
 
-func add_item(item: ItemData) -> bool:
-	var success = inventory.add_item(item, player)
-	if success and item.type == ItemData.ItemType.PASSIVE:
-		player.add_passive_bonus(item.effect, item.value)
-	return success
+# --- Items ---
+
+func buy_item(item_id: int) -> bool:
+	var item = item_registry.get_item(item_id)
+	if item == null:
+		return false
+	if owned_items.has(item_id):
+		print("Already own %s!" % item.item_name)
+		return false
+	if not spend_gold(item.cost):
+		return false
+	owned_items.append(item_id)
+	if item.type == ItemData.ItemType.PASSIVE:
+		apply_passive(item)
+	print("Bought %s!" % item.item_name)
+	return true
+
+func apply_passive(item: ItemData) -> void:
+	if item.effect == "double_damage":
+		player.bonus_damage += player.base_damage
+
+func has_item(item_id: int) -> bool:
+	return owned_items.has(item_id)
+
+func get_owned_usable_items() -> Array[ItemData]:
+	var usables: Array[ItemData] = []
+	for item_id in owned_items:
+		var item = item_registry.get_item(item_id)
+		if item.type == ItemData.ItemType.USABLE:
+			usables.append(item)
+	return usables
+
+func tick_item_cooldowns() -> void:
+	for item_id in owned_items:
+		var item = item_registry.get_item(item_id)
+		if item.type == ItemData.ItemType.USABLE:
+			item.tick_cooldown()
+
+func use_item(item_id: int) -> bool:
+	var item = item_registry.get_item(item_id)
+	if item == null:
+		return false
+	if not item.is_ready():
+		print("%s is on cooldown (%d rounds)" % [item.item_name, item.cooldown_current])
+		return false
+	item.use()
+	return true
+
+func activate_insurance() -> void:
+	insurance_active = true
+
+func clear_insurance() -> void:
+	insurance_active = false
+
+# --- Progression ---
 
 func advance_encounter() -> void:
 	current_encounter += 1
@@ -83,6 +143,8 @@ func advance_encounter() -> void:
 
 func is_run_over() -> bool:
 	return player.health <= 0
+
+# --- View ---
 
 func print_deck() -> void:
 	print("=== Your Deck (%d cards) ===" % get_card_count())
@@ -99,6 +161,10 @@ func print_status() -> void:
 	print("	Deck: %d cards" % get_card_count())
 	print("	Stage: %d | Encounter: %d/%d" % [current_stage, current_encounter, max_encounters_per_stage])
 
+# --- Encounters ---
+
+
+
 func get_stage_encounters() -> Array[EncounterData]:
 	var encounters: Array[EncounterData] = []
 
@@ -107,8 +173,7 @@ func get_stage_encounters() -> Array[EncounterData]:
 			["Rookie Dealer", 16, 80, 8],
 		]))
 		encounters.append(EncounterData.new("Double Trouble", [
-			["Dealer A", 17, 90, 10],
-			["Dealer B", 16, 70, 8],
+			["Veteran Dealer", 17, 90, 10],
 		]))
 		encounters.append(EncounterData.new("Stage 1 Boss", [
 			["Pit Boss", 18, 150, 15],
@@ -116,12 +181,9 @@ func get_stage_encounters() -> Array[EncounterData]:
 	elif current_stage == 2:
 		encounters.append(EncounterData.new("Veteran Dealers", [
 			["Sharp Eye", 17, 100, 12],
-			["Card Shark", 18, 110, 14],
 		]))
-		encounters.append(EncounterData.new("The Trio", [
-			["Dealer X", 17, 90, 10],
-			["Dealer Y", 16, 85, 10],
-			["Dealer Z", 18, 95, 12],
+		encounters.append(EncounterData.new("Card Shark", [
+			["Card Shark", 18, 110, 14],
 		]))
 		encounters.append(EncounterData.new("Stage 2 Boss", [
 			["High Roller", 19, 200, 20],

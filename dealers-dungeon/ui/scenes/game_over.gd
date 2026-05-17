@@ -1,6 +1,6 @@
 extends Control
 
-@onready var restart_button: Button = $VBoxContainer/PlayAgainButton  # Adjust path to your button
+@onready var restart_button: Button = $RestartButton
 
 func _ready():
 	if restart_button:
@@ -8,7 +8,7 @@ func _ready():
 
 func _on_restart_pressed() -> void:
 	RunData.reset()
-	get_tree().change_scene_to_file("res://ui/scenes/battle.tscn")  # Adjust to your battle scene path
+	get_tree().change_scene_to_file("res://ui/scenes/battle.tscn")
 
 func _input(event: InputEvent) -> void:
 	if not event is InputEventKey:
@@ -17,4 +17,4 @@ func _input(event: InputEvent) -> void:
 		return
 	if event.keycode == KEY_R:
 		RunData.reset()
-		get_tree().change_scene_to_file("res://ui/scenes/battle.tscn")  # Adjust path
+		get_tree().change_scene_to_file("res://ui/scenes/battle.tscn")

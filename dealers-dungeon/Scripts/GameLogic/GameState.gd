@@ -27,6 +27,9 @@ extends Node
 # Untyped: enemy_mushroom.gd has no class_name, and we call its custom anim methods.
 @onready var enemy_mushroom = $"../Enemies/Mushroom/Enemy_Mushroom"
 
+@onready var peek_button: Button = $"../UI Master/HBoxContainer/PeekButton"
+@onready var insurance_button: Button = $"../UI Master/HBoxContainer/InsuranceButton"
+ 	 	 	
 # --- State Variables ---
 
 var card_sprites: CardSprites = CardSprites.new()
@@ -55,9 +58,13 @@ func _ready():
 	double_button.pressed.connect(_on_split_pressed)
 	new_round.pressed.connect(_on_new_round_pressed)
 	begin_battle.pressed.connect(_on_begin_battle_pressed)
+	peek_button.pressed.connect(_on_peek_pressed)
+	insurance_button.pressed.connect(_on_insurance_pressed)
 	hide_all_cards()
 	hide_split_hand()
 	set_buttons_visible(false)
+	peek_button.visible = false
+	insurance_button.visible = false
 	new_round.visible = false
 	begin_battle.visible = true
 	p_layer_health.text = ""
@@ -83,7 +90,7 @@ func _on_new_round_pressed() -> void:
 func _on_begin_battle_pressed() -> void:
 	start_battle()
 
-# --- UI Update Functions ---
+# --- UI Update Functions---
 
 func get_player_card_sprites() -> Array[Sprite2D]:
 	return [player_card_1, player_card_2, player_card_3, player_card_4]
@@ -364,6 +371,9 @@ func get_unresolved_enemies() -> Array[Enemy]:
 # --- Round Flow ---
 
 func start_new_round() -> void:
+	RunData.tick_item_cooldowns()
+	RunData.clear_insurance()
+	update_item_buttons()
 	var active_enemies = get_active_enemies()
 	if active_enemies.is_empty():
 		print("")
@@ -483,6 +493,7 @@ func end_round() -> void:
 		battle_active = false
 		new_round.visible = false
 		begin_battle.visible = false
+		RunData.player.health += 100
 		get_tree().change_scene_to_file("res://ui/scenes/game_over.tscn")
 		return
 
@@ -490,6 +501,8 @@ func end_round() -> void:
 	if get_active_enemies().is_empty():
 		print("")
 		print("=== BATTLE WON! ===")
+		RunData.player.money += 50
+		RunData.player.health + 30
 		battle_active = false
 		RunData.advance_encounter()
 		get_tree().change_scene_to_file("res://ui/scenes/shop.tscn")
@@ -504,6 +517,37 @@ func end_round() -> void:
 	print("Press [R] for next round or [Q] to quit.")
 
 # --- Player Actions ---
+
+func _on_peek_pressed() -> void:
+	if not game_active or not player_turn:
+		return
+	if RunData.use_item(1):
+		update_enemy_hand_ui_revealed()
+		peek_button.disabled = true
+		print("Peeked at dealer's hand!")
+
+func _on_insurance_pressed() -> void:
+	if not game_active or not player_turn:
+		return
+	if RunData.use_item(2):
+		RunData.activate_insurance()
+		insurance_button.disabled = true
+		print("Insurance activated!")
+		
+func update_item_buttons() -> void:
+	if RunData.has_item(1):
+		peek_button.visible = true
+		var peek_item = RunData.item_registry.get_item(1)
+		peek_button.disabled = not peek_item.is_ready()
+	else:
+		peek_button.visible = false
+
+	if RunData.has_item(2):
+		insurance_button.visible = true
+		var insurance_item = RunData.item_registry.get_item(2)
+		insurance_button.disabled = not insurance_item.is_ready()
+	else:
+		insurance_button.visible = false
 
 func hit() -> void:
 	if not game_active or not player_turn or _is_animating:
@@ -777,6 +821,10 @@ func apply_player_attack(enemy: Enemy) -> void:
 		enemy_mushroom.take_damage_Anim()
 
 func apply_enemy_attack(enemy: Enemy) -> void:
+	if RunData.insurance_active:
+		print("	Insurance blocked damage from %s!" % enemy.name)
+		RunData.clear_insurance()
+		return
 	var damage = calculate_enemy_damage(enemy)
 	RunData.player.health -= damage
 	RunData.player.health = max(RunData.player.health, 0)
