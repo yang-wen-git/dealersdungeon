@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="DealersDungeon"
+run/main_scene="uid://ceqods0v0o132"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://Sprites/icon.svg"
+
+[display]
+
+window/size/viewport_width=2048
+window/size/viewport_height=1152
 
 [physics]
 
