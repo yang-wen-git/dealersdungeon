@@ -19,7 +19,6 @@ func add_item(item: ItemData, player_data: PlayerData) -> bool:
 	elif item.type == ItemData.ItemType.PASSIVE:
 
 		passive_items.append(item)
-		player_data.add_passive_bonus(item.effect, item.value)
 		return true
 
 	return false
