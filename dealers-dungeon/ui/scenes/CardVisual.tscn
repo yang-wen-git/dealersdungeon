@@ -1,0 +1,16 @@
+<<<<<<< Updated upstream
+[gd_scene format=3 uid="uid://bdwf7nfi557kn"]
+=======
+[gd_scene format=3 uid="uid://dj0f2i68jsv6"]
+>>>>>>> Stashed changes
+
+[ext_resource type="Script" path="res://Scripts/GameLogic/card_visual.gd" id="1_rnn5a"]
+
+[node name="CardVisual" type="Node2D" unique_id=1668120866]
+script = ExtResource("1_rnn5a")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=784231864]
+<<<<<<< Updated upstream
+=======
+script = ExtResource("1_rnn5a")
+>>>>>>> Stashed changes
