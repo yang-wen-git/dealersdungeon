@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://0b3qlpvyq7d7" path="res://Sprites/newRound.png" id="15_xqw7t"]
 [ext_resource type="PackedScene" uid="uid://d24suxr16b5mx" path="res://ui/scenes/toad_dialog.tscn" id="17_yomj6"]
 [ext_resource type="Script" uid="uid://cplh3enapvmdd" path="res://ui/scenes/toad_dialog.gd" id="18_mk7gp"]
+[ext_resource type="PackedScene" path="res://ui/scenes/enemy_chat_box.tscn" id="19_chat"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0qua3"]
 atlas = ExtResource("8_livib")
@@ -371,6 +372,12 @@ icon = ExtResource("15_xqw7t")
 layout_mode = 2
 icon = ExtResource("5_ww5o5")
 
+[node name="TalkButton" type="Button" parent="UI Master/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Talk"
+
 [node name="GameState" type="Node" parent="." unique_id=1310702007]
 script = ExtResource("8_tj4ba")
 
@@ -485,3 +492,5 @@ horizontal_alignment = 1
 [node name="toadDialog" parent="dialog" unique_id=1861104223 instance=ExtResource("17_yomj6")]
 position = Vector2(1133, 49)
 script = ExtResource("18_mk7gp")
+
+[node name="EnemyChatBox" parent="." instance=ExtResource("19_chat")]

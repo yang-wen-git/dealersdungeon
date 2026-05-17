@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://ui/scenes/enemy_chat_box.gd" id="1_chat"]
+
+[node name="EnemyChatBox" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_chat")
+
+[node name="Dimmer" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.45)
+mouse_filter = 2
+
+[node name="Input" type="LineEdit" parent="."]
+offset_left = 674.0
+offset_top = 720.0
+offset_right = 1374.0
+offset_bottom = 784.0
+theme_override_font_sizes/font_size = 28
+placeholder_text = "Say something to the dealer…"
+caret_blink = true
+
+[node name="Hint" type="Label" parent="."]
+offset_left = 674.0
+offset_top = 790.0
+offset_right = 1374.0
+offset_bottom = 818.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.6588)
+theme_override_font_sizes/font_size = 18
+text = "Enter to send  •  Esc to close"
+horizontal_alignment = 1
