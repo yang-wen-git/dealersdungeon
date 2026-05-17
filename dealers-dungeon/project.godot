@@ -19,10 +19,6 @@ config/icon="res://Sprites/icon.svg"
 
 BedrockClient="*uid://cc10uyp0128p0"
 
-[editor]
-
-version_control/autoload_on_startup=true
-
 [physics]
 
 3d/physics_engine="Jolt Physics"
