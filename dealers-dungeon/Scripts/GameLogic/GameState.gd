@@ -23,6 +23,7 @@ extends Node
 @onready var split_hand_card_2: Sprite2D = $"../SplitHand/SplitHandCard2"
 @onready var split_hand_card_3: Sprite2D = $"../SplitHand/SplitHandCard3"
 @onready var split_hand_card_4: Sprite2D = $"../SplitHand/SplitHandCard4"
+@onready var deck_visual: Sprite2D = $"../DeckVisual"
 
 # --- State Variables ---
 
@@ -42,6 +43,7 @@ var game_active: bool = false
 var player_turn: bool = false
 var player_busted: bool = false
 var player_stood: bool = false
+var _is_animating: bool = false
 
 # --- Initialization ---
 
@@ -191,6 +193,101 @@ func update_split_hand_ui() -> void:
 		else:
 			split_sprites[i].visible = false
 
+# --- Animations ---
+
+# Deals the initial 4 cards in standard blackjack order with slide-in animations.
+# P1 face-up → D1 face-up → P2 face-up → D2 face-DOWN (card back).
+func deal_initial_cards_animated() -> void:
+	_is_animating = true
+	var active_enemies = get_active_enemies()
+	var player_sprites = get_player_card_sprites()
+	var enemy_sprites = get_enemy_card_sprites()
+
+	const STAGGER: float = 0.18
+	const DURATION: float = 0.25
+
+	# Build sequence: [sprite, texture, delay]
+	var sequence: Array = []
+	sequence.append([player_sprites[0], card_sprites.get_texture(player_hands[0].cards[0]), 0.0])
+	if not active_enemies.is_empty():
+		sequence.append([enemy_sprites[0], card_sprites.get_texture(active_enemies[0].hand.cards[0]), STAGGER])
+	sequence.append([player_sprites[1], card_sprites.get_texture(player_hands[0].cards[1]), STAGGER * 2])
+	if not active_enemies.is_empty():
+		sequence.append([enemy_sprites[1], card_sprites.card_back, STAGGER * 3])
+
+	var last_tween: Tween = null
+	for item in sequence:
+		var sprite: Sprite2D = item[0]
+		var texture: Texture2D = item[1]
+		var delay: float = item[2]
+		var final_pos: Vector2 = sprite.position
+
+		sprite.visible = false
+		sprite.texture = texture
+
+		var _s := sprite
+		var _fp := final_pos
+		var tween = create_tween()
+		if delay > 0.0:
+			tween.tween_interval(delay)
+		tween.tween_callback(func():
+			_s.position = _s.get_parent().to_local(deck_visual.global_position)
+			_s.visible = true
+		)
+		tween.tween_property(_s, "position", _fp, DURATION) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		last_tween = tween
+
+	if last_tween:
+		await last_tween.finished
+
+	score_label.text = str(get_hand_value(player_hands[0]))
+	dealer_score_label.text = "?"
+	_is_animating = false
+
+
+# Animates the most recently drawn player card sliding in from the deck position.
+# Call after update_player_hand_ui() so the sprite is already at its final position.
+func animate_player_hit_card(hand: Hand) -> void:
+	_is_animating = true
+	var new_index = hand.size() - 1
+	if new_index < 0 or new_index >= 4:
+		_is_animating = false
+		return
+
+	var sprite: Sprite2D = get_player_card_sprites()[new_index]
+	var final_pos: Vector2 = sprite.position
+	sprite.position = sprite.get_parent().to_local(deck_visual.global_position)
+	sprite.visible = true
+
+	var tween = create_tween()
+	tween.tween_property(sprite, "position", final_pos, 0.25) \
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	await tween.finished
+	_is_animating = false
+
+
+# Flips the dealer's face-down card (sprite index 1) to reveal the actual card value.
+func animate_dealer_card_reveal() -> void:
+	var active_enemies = get_active_enemies()
+	if active_enemies.is_empty():
+		return
+	var enemy = active_enemies[0]
+	if enemy.hand.cards.size() < 2:
+		return
+
+	var sprite: Sprite2D = get_enemy_card_sprites()[1]
+	var face_texture: Texture2D = card_sprites.get_texture(enemy.hand.cards[1])
+	var original_scale_x: float = sprite.scale.x
+
+	# Scale X to 0 (card turns sideways), swap texture, scale back to full (card faces forward)
+	var tween = create_tween()
+	tween.tween_property(sprite, "scale:x", 0.0, 0.12).set_trans(Tween.TRANS_QUAD)
+	tween.tween_callback(func(): sprite.texture = face_texture)
+	tween.tween_property(sprite, "scale:x", original_scale_x, 0.12).set_trans(Tween.TRANS_QUAD)
+	await tween.finished
+
+
 # --- Pre-Battle ---
 
 func show_pre_battle() -> void:
@@ -293,15 +390,12 @@ func start_new_round() -> void:
 		draw_to_hand(enemy.hand)
 		draw_to_hand(enemy.hand)
 
-	# Update UI for new round
+	# Reset UI — buttons stay hidden until the deal animation finishes
 	hide_all_cards()
 	hide_split_hand()
 	new_round.visible = false
-	update_player_hand_ui()
-	update_enemy_hand_ui_hidden()
+	set_buttons_visible(false)
 	update_health_ui()
-	set_buttons_visible(true)
-	double_button.visible = can_split()
 
 	print("")
 	print("=== ROUND %d ===" % current_round)
@@ -310,6 +404,12 @@ func start_new_round() -> void:
 
 	print_player_hand()
 	print_all_dealer_hands_hidden()
+
+	# Animate the deal, then unlock player actions
+	await deal_initial_cards_animated()
+
+	set_buttons_visible(true)
+	double_button.visible = can_split()
 
 	if check_blackjack():
 		return
@@ -404,15 +504,17 @@ func end_round() -> void:
 # --- Player Actions ---
 
 func hit() -> void:
-	if not game_active or not player_turn:
+	if not game_active or not player_turn or _is_animating:
 		return
 
 	var current_hand = player_hands[current_hand_index]
 	draw_to_hand(current_hand)
 
-	# Update UI after drawing
+	# Show all cards at their final positions, then animate just the new card
 	update_player_hand_ui()
 	double_button.visible = false
+
+	await animate_player_hit_card(current_hand)
 
 	print("")
 	print_current_hand()
@@ -430,7 +532,7 @@ func hit() -> void:
 		print_split_prompt()
 
 func stand() -> void:
-	if not game_active or not player_turn:
+	if not game_active or not player_turn or _is_animating:
 		return
 
 	print("")
@@ -438,7 +540,7 @@ func stand() -> void:
 	advance_to_next_hand()
 
 func split() -> void:
-	if not game_active or not player_turn:
+	if not game_active or not player_turn or _is_animating:
 		return
 	if not can_split():
 		print("Cannot split this hand.")
@@ -527,6 +629,7 @@ func advance_to_next_hand() -> void:
 # --- Dealer Turn ---
 
 func dealer_turns() -> void:
+	await animate_dealer_card_reveal()
 	update_enemy_hand_ui_revealed()
 
 	for enemy in get_unresolved_enemies():
@@ -582,6 +685,15 @@ func _input(event: InputEvent) -> void:
 	if not event is InputEventKey:
 		return
 	if not event.pressed:
+		return
+
+	# Ignore game hotkeys while a text field (e.g. the chat box) has focus, so
+	# typing a message doesn't also trigger Hit/Stand/Split/etc.
+	if get_viewport().gui_get_focus_owner() is LineEdit:
+		return
+
+	# Block all game hotkeys during card animations
+	if _is_animating:
 		return
 
 	# Pre-battle screen
