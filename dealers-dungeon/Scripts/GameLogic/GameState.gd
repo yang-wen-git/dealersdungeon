@@ -29,7 +29,6 @@ extends Node
 var card_sprites: CardSprites = CardSprites.new()
 
 var registry: CardRegistry
-var run_data: RunData
 var deck: Deck
 
 var player_hands: Array[Hand] = []
@@ -47,7 +46,6 @@ var player_stood: bool = false
 # --- Initialization ---
 
 func _ready():
-	run_data = RunData.new()
 	hit_button.pressed.connect(_on_hit_pressed)
 	stand_button.pressed.connect(_on_stand_pressed)
 	double_button.pressed.connect(_on_split_pressed)
@@ -108,7 +106,7 @@ func set_buttons_visible(show: bool) -> void:
 	double_button.visible = show
 
 func update_health_ui() -> void:
-	p_layer_health.text = "HP: %d/%d" % [run_data.player.health, run_data.player.max_health]
+	p_layer_health.text = "HP: %d/%d" % [RunData.player.health, RunData.player.max_health]
 	if get_active_enemies().is_empty():
 		enemy_health.text = ""
 	else:
@@ -196,7 +194,7 @@ func update_split_hand_ui() -> void:
 # --- Pre-Battle ---
 
 func show_pre_battle() -> void:
-	var encounter = run_data.get_current_encounter()
+	var encounter = RunData.get_current_encounter()
 	if encounter == null:
 		print("=== No more encounters. You win! ===")
 		return
@@ -217,17 +215,17 @@ func show_pre_battle() -> void:
 	for config in encounter.enemy_configs:
 		print("		%s (stands on %d, HP: %d, DMG: %d)" % [config[0], config[1], config[2], config[3]])
 	print("")
-	run_data.print_status()
+	RunData.print_status()
 	print("")
 	print("Press [B] to begin battle or [D] to view deck.")
 
 func start_battle() -> void:
-	var encounter = run_data.get_current_encounter()
+	var encounter = RunData.get_current_encounter()
 	if encounter == null:
 		return
 
-	registry = run_data.registry
-	deck = run_data.create_battle_deck()
+	registry = RunData.registry
+	deck = RunData.create_battle_deck()
 	battle_active = true
 	begin_battle.visible = false
 
@@ -376,29 +374,27 @@ func end_round() -> void:
 	set_buttons_visible(false)
 	update_health_ui()
 
-	# Check player death
-	if run_data.player.health <= 0:
+	# Check player death - transition to death screen
+	if RunData.player.health <= 0:
 		print("")
 		print("=== YOU DIED. Run over. ===")
 		battle_active = false
 		new_round.visible = false
 		begin_battle.visible = false
-		print("Press [Q] to quit.")
+		get_tree().change_scene_to_file("res://ui/scenes/game_over.tscn")
 		return
 
-	# Check all enemies dead
+	# Check all enemies dead - transition to shop
 	if get_active_enemies().is_empty():
 		print("")
 		print("=== BATTLE WON! ===")
 		battle_active = false
-		new_round.visible = false
-		begin_battle.visible = true
-		run_data.advance_encounter()
-		print("Press [N] for next encounter or [Q] to quit.")
+		RunData.advance_encounter()
+		get_tree().change_scene_to_file("res://ui/scenes/shop.tscn")
 		return
 
 	print("")
-	print("	Player HP: %d/%d" % [run_data.player.health, run_data.player.max_health])
+	print("	Player HP: %d/%d" % [RunData.player.health, RunData.player.max_health])
 	for enemy in get_active_enemies():
 		print("	%s HP: %d/%d" % [enemy.name, enemy.health, enemy.max_health])
 	print("")
@@ -595,7 +591,7 @@ func _input(event: InputEvent) -> void:
 		elif event.keycode == KEY_N:
 			show_pre_battle()
 		elif event.keycode == KEY_D:
-			run_data.print_deck()
+			RunData.print_deck()
 		elif event.keycode == KEY_Q:
 			print("Thanks for playing!")
 			get_tree().quit()
@@ -647,7 +643,7 @@ func get_hand_value(hand: Hand) -> int:
 # --- Damage Pipeline ---
 
 func calculate_player_damage() -> int:
-	var base = run_data.player.get_damage()
+	var base = RunData.player.get_damage()
 	return base
 
 func calculate_enemy_damage(enemy: Enemy) -> int:
@@ -664,9 +660,9 @@ func apply_player_attack(enemy: Enemy) -> void:
 
 func apply_enemy_attack(enemy: Enemy) -> void:
 	var damage = calculate_enemy_damage(enemy)
-	run_data.player.health -= damage
-	run_data.player.health = max(run_data.player.health, 0)
-	print("	%s deals %d damage to you! (HP: %d/%d)" % [enemy.name, damage, run_data.player.health, run_data.player.max_health])
+	RunData.player.health -= damage
+	RunData.player.health = max(RunData.player.health, 0)
+	print("	%s deals %d damage to you! (HP: %d/%d)" % [enemy.name, damage, RunData.player.health, RunData.player.max_health])
 	update_health_ui()
 
 # --- Print Functions ---
