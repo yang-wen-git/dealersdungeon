@@ -1,12 +1,6 @@
-<<<<<<< Updated upstream
 [gd_scene format=3 uid="uid://b2ao6wfls88a6"]
 
 [ext_resource type="Script" uid="uid://c6wtaiwx263pb" path="res://Scripts/GameLogic/GameState.gd" id="1_f0ckd"]
-=======
-[gd_scene format=3 uid="uid://wgo2jy7b4xcq"]
-
-[ext_resource type="Script" path="res://Scripts/GameLogic/GameState.gd" id="1_f0ckd"]
->>>>>>> Stashed changes
 
 [node name="GameTesting" type="Node" unique_id=22736791]
 script = ExtResource("1_f0ckd")
