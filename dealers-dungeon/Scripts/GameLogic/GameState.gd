@@ -1,50 +1,71 @@
 class_name GameState
 extends Node
 
+# --- State Variables ---
+
 var registry: CardRegistry
-var deck_order: Array = []
+var run_data: RunData
+var deck: Deck
 
 var player_hands: Array[Hand] = []
 var enemies: Array[Enemy] = []
 
+var current_hand_index: int = 0
+var has_split: bool = false
 var current_round: int = 0
+var battle_active: bool = false
 var game_active: bool = false
 var player_turn: bool = false
 var player_busted: bool = false
 var player_stood: bool = false
 
+# --- Initialization ---
+
 func _ready():
-	registry = CardRegistry.new()
-	registry.build_standard_deck()
-	start_new_game(2)
+	run_data = RunData.new()
+	show_pre_battle()
 
-func start_new_game(enemy_count: int) -> void:
-	# Shuffle deck only at game start
-	deck_order.clear()
-	for key in registry.cards.keys():
-		deck_order.append(key)
-	deck_order.shuffle()
+# --- Pre-Battle ---
 
-	# Create enemies
-	setup_enemies(enemy_count)
+func show_pre_battle() -> void:
+	var encounter = run_data.get_current_encounter()
+	if encounter == null:
+		print("=== No more encounters. You win! ===")
+		return
+
+	battle_active = false
+	print("")
+	print("=== UPCOMING BATTLE ===")
+	print("	%s" % encounter.encounter_name)
+	print("	Enemies:")
+	for config in encounter.enemy_configs:
+		print("		%s (stands on %d, HP: %d, DMG: %d)" % [config[0], config[1], config[2], config[3]])
+	print("")
+	run_data.print_status()
+	print("")
+	print("Press [B] to begin battle or [D] to view deck.")
+
+func start_battle() -> void:
+	var encounter = run_data.get_current_encounter()
+	if encounter == null:
+		return
+
+	registry = run_data.registry
+	deck = run_data.create_battle_deck()
+	battle_active = true
+
+	enemies.clear()
+	for config in encounter.enemy_configs:
+		var enemy = Enemy.new(config[0], config[1])
+		enemy.max_health = config[2]
+		enemy.health = config[2]
+		enemy.damage = config[3]
+		enemies.append(enemy)
 
 	current_round = 0
 	start_new_round()
 
-func setup_enemies(count: int) -> void:
-	enemies.clear()
-	count = clamp(count, 1, 3)
-
-	# Example: different enemies with different stand values
-	var enemy_configs = [
-		["Dealer 1", 17],
-		["Dealer 2", 16],
-		["Dealer 3", 18],
-	]
-
-	for i in range(count):
-		var config = enemy_configs[i]
-		enemies.append(Enemy.new(config[0], config[1]))
+# --- Enemy Management ---
 
 func remove_enemy(index: int) -> void:
 	if index >= 0 and index < enemies.size():
@@ -58,15 +79,14 @@ func get_active_enemies() -> Array[Enemy]:
 			active.append(enemy)
 	return active
 
-func check_deck() -> void:
-	# Reshuffle if deck is running low
-	if deck_order.size() < 10:
-		print("")
-		print("--- Reshuffling deck ---")
-		deck_order.clear()
-		for key in registry.cards.keys():
-			deck_order.append(key)
-		deck_order.shuffle()
+func get_unresolved_enemies() -> Array[Enemy]:
+	var unresolved: Array[Enemy] = []
+	for enemy in get_active_enemies():
+		if not enemy.round_resolved:
+			unresolved.append(enemy)
+	return unresolved
+
+# --- Round Flow ---
 
 func start_new_round() -> void:
 	var active_enemies = get_active_enemies()
@@ -80,28 +100,26 @@ func start_new_round() -> void:
 	player_turn = true
 	player_busted = false
 	player_stood = false
+	current_hand_index = 0
+	has_split = false
 
-	# Check if deck needs reshuffling
-	check_deck()
-
-	# Clear hands
 	player_hands.clear()
 	player_hands.append(Hand.new("Player"))
 
 	for enemy in active_enemies:
 		enemy.hand = Hand.new(enemy.name)
+		enemy.round_resolved = false
 
-	# Deal 2 cards to player
 	draw_to_hand(player_hands[0])
 	draw_to_hand(player_hands[0])
 
-	# Deal 2 cards to each active enemy
 	for enemy in active_enemies:
 		draw_to_hand(enemy.hand)
 		draw_to_hand(enemy.hand)
 
 	print("")
 	print("=== ROUND %d ===" % current_round)
+	print("	Cards remaining: %d" % deck.remaining())
 	print("")
 
 	print_player_hand()
@@ -110,115 +128,240 @@ func start_new_round() -> void:
 	if check_blackjack():
 		return
 
-	print("")
-	print("Your move: [H]it or [S]tand")
+	print_split_prompt()
 
 func check_blackjack() -> bool:
 	var player_value = get_hand_value(player_hands[0])
 	var player_has_bj = player_value == 21 and player_hands[0].size() == 2
 
-	# Check if any dealer has blackjack
 	var dealer_bj_list: Array[Enemy] = []
 	for enemy in get_active_enemies():
 		var val = get_hand_value(enemy.hand)
 		if val == 21 and enemy.hand.size() == 2:
 			dealer_bj_list.append(enemy)
 
-	if player_has_bj and dealer_bj_list.size() > 0:
+	if dealer_bj_list.size() > 0:
 		print("")
-		print("Blackjack push with: ")
 		for enemy in dealer_bj_list:
-			print("  ", enemy.name)
-		print_all_dealer_hands_revealed()
+			if player_has_bj:
+				print("Blackjack push with %s!" % enemy.name)
+			else:
+				print("%s has Blackjack! %s wins this round." % [enemy.name, enemy.name])
+				apply_enemy_attack(enemy)
+			print_single_dealer_revealed(enemy)
+			enemy.round_resolved = true
+		print("")
+
+	if player_has_bj:
+		var unresolved = get_unresolved_enemies()
+		if unresolved.size() > 0:
+			print("BLACKJACK! You win against:")
+			for enemy in unresolved:
+				print("	%s" % enemy.name)
+				apply_player_attack(enemy)
+				enemy.round_resolved = true
+		elif dealer_bj_list.size() > 0:
+			pass
+		else:
+			print("BLACKJACK! You win!")
 		end_round()
 		return true
-	elif dealer_bj_list.size() > 0:
-		print("")
-		print("Dealer Blackjack!")
-		for enemy in dealer_bj_list:
-			print("  %s has Blackjack!" % enemy.name)
-		print_all_dealer_hands_revealed()
-		end_round()
-		return true
-	elif player_has_bj:
-		print("")
-		print("BLACKJACK! You win!")
-		print_all_dealer_hands_revealed()
+
+	if get_unresolved_enemies().is_empty():
 		end_round()
 		return true
 
 	return false
 
+func end_round() -> void:
+	for hand in player_hands:
+		deck.discard_hand(hand)
+	for enemy in get_active_enemies():
+		deck.discard_hand(enemy.hand)
+
+	game_active = false
+
+	# Check player death
+	if run_data.player.health <= 0:
+		print("")
+		print("=== YOU DIED. Run over. ===")
+		battle_active = false
+		print("Press [Q] to quit.")
+		return
+
+	# Check all enemies dead
+	if get_active_enemies().is_empty():
+		print("")
+		print("=== BATTLE WON! ===")
+		battle_active = false
+		run_data.advance_encounter()
+		print("Press [N] for next encounter or [Q] to quit.")
+		return
+
+	print("")
+	print("	Player HP: %d/%d" % [run_data.player.health, run_data.player.max_health])
+	for enemy in get_active_enemies():
+		print("	%s HP: %d/%d" % [enemy.name, enemy.health, enemy.max_health])
+	print("")
+	print("Press [R] for next round or [Q] to quit.")
+
+# --- Player Actions ---
+
 func hit() -> void:
 	if not game_active or not player_turn:
 		return
 
-	draw_to_hand(player_hands[0])
+	var current_hand = player_hands[current_hand_index]
+	draw_to_hand(current_hand)
 	print("")
-	print_player_hand()
+	print_current_hand()
 
-	var player_value = get_hand_value(player_hands[0])
+	var hand_value = get_hand_value(current_hand)
 
-	if player_value > 21:
-		player_busted = true
-		player_turn = false
+	if hand_value > 21:
 		print("")
-		print("BUST! You went over 21. You lose!")
-		print_all_dealer_hands_revealed()
-		end_round()
-	elif player_value == 21:
-		print("You have 21!")
-		stand()
+		print("%s BUSTS!" % current_hand.owner_name)
+		advance_to_next_hand()
+	elif hand_value == 21:
+		print("%s has 21!" % current_hand.owner_name)
+		advance_to_next_hand()
 	else:
-		print("")
-		print("Your move: [H]it or [S]tand")
+		print_split_prompt()
 
 func stand() -> void:
 	if not game_active or not player_turn:
 		return
 
-	player_stood = true
-	player_turn = false
+	print("")
+	print("%s stands." % player_hands[current_hand_index].owner_name)
+	advance_to_next_hand()
+
+func split() -> void:
+	if not game_active or not player_turn:
+		return
+	if not can_split():
+		print("Cannot split this hand.")
+		return
+
+	has_split = true
+
+	var original_hand = player_hands[0]
+	var card_a = original_hand.cards[0]
+	var card_b = original_hand.cards[1]
+
+	player_hands.clear()
+
+	var hand_one = Hand.new("Player Hand 1")
+	hand_one.add_card(card_a)
+	player_hands.append(hand_one)
+
+	var hand_two = Hand.new("Player Hand 2")
+	hand_two.add_card(card_b)
+	player_hands.append(hand_two)
+
+	draw_to_hand(hand_one)
+	draw_to_hand(hand_two)
+
+	current_hand_index = 0
 
 	print("")
-	print("You stand.")
+	print("=== SPLIT! Playing two hands ===")
 	print("")
+	print_current_hand()
+	print_split_prompt()
 
-	dealer_turns()
+func can_split() -> bool:
+	if has_split:
+		return false
+	if player_hands.size() > 1:
+		return false
+	var hand = player_hands[current_hand_index]
+	if hand.size() != 2:
+		return false
+	var card_a = registry.get_card(hand.cards[0])
+	var card_b = registry.get_card(hand.cards[1])
+	return card_a.rank == card_b.rank
+
+func advance_to_next_hand() -> void:
+	current_hand_index += 1
+
+	if current_hand_index >= player_hands.size():
+		var all_busted = true
+		for hand in player_hands:
+			if get_hand_value(hand) <= 21:
+				all_busted = false
+				break
+
+		if all_busted:
+			player_busted = true
+			player_turn = false
+			print("")
+			print("All hands busted!")
+			print_all_dealer_hands_revealed()
+			for enemy in get_unresolved_enemies():
+				apply_enemy_attack(enemy)
+			end_round()
+		else:
+			player_stood = true
+			player_turn = false
+			print("")
+			dealer_turns()
+	else:
+		print("")
+		print("=== Now playing %s ===" % player_hands[current_hand_index].owner_name)
+		print_current_hand()
+		print_split_prompt()
+
+# --- Dealer Turn ---
 
 func dealer_turns() -> void:
-	var player_value = get_hand_value(player_hands[0])
-
-	for enemy in get_active_enemies():
+	for enemy in get_unresolved_enemies():
 		print("--- %s's Turn (stands on %d) ---" % [enemy.name, enemy.stand_value])
 		print_single_dealer_revealed(enemy)
 
-		# Each enemy hits based on their own stand value
 		while get_hand_value(enemy.hand) < enemy.stand_value:
 			draw_to_hand(enemy.hand)
 			print("%s hits." % enemy.name)
 			print_single_dealer_revealed(enemy)
 
 		var dealer_value = get_hand_value(enemy.hand)
+		var enemy_won = false
 		print("")
 
 		if dealer_value > 21:
-			print("%s busts! You win against %s!" % [enemy.name, enemy.name])
-		elif dealer_value > player_value:
-			print("%s wins with %d vs your %d." % [enemy.name, dealer_value, player_value])
-		elif player_value > dealer_value:
-			print("You beat %s! %d vs %d." % [enemy.name, player_value, dealer_value])
+			print("%s busts!" % enemy.name)
+			for hand in player_hands:
+				if get_hand_value(hand) <= 21:
+					print("	%s wins against %s!" % [hand.owner_name, enemy.name])
+					apply_player_attack(enemy)
 		else:
-			print("Push with %s at %d." % [enemy.name, dealer_value])
+			for hand in player_hands:
+				var hand_value = get_hand_value(hand)
+				if hand_value > 21:
+					if not enemy_won:
+						print("	%s busted - %s wins." % [hand.owner_name, enemy.name])
+						apply_enemy_attack(enemy)
+						enemy_won = true
+					else:
+						print("	%s busted - %s already attacked." % [hand.owner_name, enemy.name])
+				elif hand_value > dealer_value:
+					print("	%s beats %s! %d vs %d." % [hand.owner_name, enemy.name, hand_value, dealer_value])
+					apply_player_attack(enemy)
+				elif dealer_value > hand_value:
+					if not enemy_won:
+						print("	%s loses to %s. %d vs %d." % [hand.owner_name, enemy.name, hand_value, dealer_value])
+						apply_enemy_attack(enemy)
+						enemy_won = true
+					else:
+						print("	%s loses to %s. %d vs %d. (already attacked)" % [hand.owner_name, enemy.name, hand_value, dealer_value])
+				else:
+					print("	%s pushes with %s at %d." % [hand.owner_name, enemy.name, dealer_value])
 
 		print("")
 
 	end_round()
 
-func end_round() -> void:
-	game_active = false
-	print("")
-	print("Press [R] for next round or [Q] to quit.")
+# --- Input ---
 
 func _input(event: InputEvent) -> void:
 	if not event is InputEventKey:
@@ -226,14 +369,31 @@ func _input(event: InputEvent) -> void:
 	if not event.pressed:
 		return
 
+	# Pre-battle screen
+	if not battle_active:
+		if event.keycode == KEY_B:
+			start_battle()
+		elif event.keycode == KEY_D:
+			run_data.print_deck()
+		elif event.keycode == KEY_Q:
+			print("Thanks for playing!")
+			get_tree().quit()
+		return
+
+	# During battle - player's turn
 	if game_active and player_turn:
 		if event.keycode == KEY_H:
 			hit()
 		elif event.keycode == KEY_S:
 			stand()
+		elif event.keycode == KEY_P:
+			split()
+	# Between rounds within a battle
 	elif not game_active:
 		if event.keycode == KEY_R:
 			start_new_round()
+		elif event.keycode == KEY_N:
+			show_pre_battle()
 		elif event.keycode == KEY_Q:
 			print("Thanks for playing!")
 			get_tree().quit()
@@ -241,9 +401,10 @@ func _input(event: InputEvent) -> void:
 # --- Utility ---
 
 func draw_to_hand(hand: Hand) -> void:
-	if deck_order.is_empty():
-		check_deck()
-	var card_id = deck_order.pop_back()
+	var card_id = deck.draw()
+	if card_id == -1:
+		push_error("No cards available!")
+		return
 	hand.add_card(card_id)
 
 func get_hand_value(hand: Hand) -> int:
@@ -262,18 +423,60 @@ func get_hand_value(hand: Hand) -> int:
 
 	return total
 
+# --- Damage Pipeline ---
+
+func calculate_player_damage() -> int:
+	var base = run_data.player.get_damage()
+	# Future: apply item/buff modifiers here
+	return base
+
+func calculate_enemy_damage(enemy: Enemy) -> int:
+	var base = enemy.damage
+	# Future: apply player defense reduction here
+	return base
+
+func apply_player_attack(enemy: Enemy) -> void:
+	var damage = calculate_player_damage()
+	enemy.take_damage(damage)
+	print("	You deal %d damage to %s! (HP: %d/%d)" % [damage, enemy.name, enemy.health, enemy.max_health])
+	if enemy.health <= 0:
+		remove_enemy(enemies.find(enemy))
+
+func apply_enemy_attack(enemy: Enemy) -> void:
+	var damage = calculate_enemy_damage(enemy)
+	run_data.player.health -= damage
+	run_data.player.health = max(run_data.player.health, 0)
+	print("	%s deals %d damage to you! (HP: %d/%d)" % [enemy.name, damage, run_data.player.health, run_data.player.max_health])
+
+# --- Print Functions ---
+
 func print_player_hand() -> void:
-	print("Your hand:")
-	for card_id in player_hands[0].cards:
-		print("  ", registry.get_card(card_id))
-	print("  Total: %d" % get_hand_value(player_hands[0]))
+	for hand in player_hands:
+		print("%s:" % hand.owner_name)
+		for card_id in hand.cards:
+			print("	", registry.get_card(card_id))
+		print("	Total: %d" % get_hand_value(hand))
+
+func print_current_hand() -> void:
+	var hand = player_hands[current_hand_index]
+	print("%s:" % hand.owner_name)
+	for card_id in hand.cards:
+		print("	", registry.get_card(card_id))
+	print("	Total: %d" % get_hand_value(hand))
+
+func print_split_prompt() -> void:
+	print("")
+	if can_split():
+		print("Your move: [H]it, [S]tand, or [P]plit")
+	else:
+		print("Your move: [H]it or [S]tand")
 
 func print_all_dealer_hands_hidden() -> void:
 	for enemy in get_active_enemies():
 		print("%s's hand:" % enemy.name)
 		var first_card = registry.get_card(enemy.hand.cards[0])
-		print("  ", first_card)
-		print("  [HIDDEN]")
+		print("	", first_card)
+		print("	[HIDDEN]")
 
 func print_all_dealer_hands_revealed() -> void:
 	for enemy in get_active_enemies():
@@ -282,5 +485,5 @@ func print_all_dealer_hands_revealed() -> void:
 func print_single_dealer_revealed(enemy: Enemy) -> void:
 	print("%s's hand:" % enemy.name)
 	for card_id in enemy.hand.cards:
-		print("  ", registry.get_card(card_id))
-	print("  Total: %d" % get_hand_value(enemy.hand))
+		print("	", registry.get_card(card_id))
+	print("	Total: %d" % get_hand_value(enemy.hand))

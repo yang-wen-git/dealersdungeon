@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://b8oaau0iekleq"]
+
+[ext_resource type="Texture2D" uid="uid://daet8utg8tkpq" path="res://Sprites/Hit.png" id="1_0h1n1"]
+[ext_resource type="Texture2D" uid="uid://dqtx8nw64g8em" path="res://Sprites/Stand.png" id="2_56i82"]
+[ext_resource type="Texture2D" uid="uid://dqxiqt4wcsd2h" path="res://Sprites/Split.png" id="3_84dds"]
+
+[node name="Game_tscn" type="Node2D" unique_id=1704856638]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=471424798]
+offset_right = 2048.0
+offset_bottom = 1152.0
+color = Color(0.02745098, 0.3882353, 0.14117648, 1)
+
+[node name="UI Master" type="CanvasLayer" parent="." unique_id=147979917]
+
+[node name="DealerScoreLabel" type="Label" parent="UI Master" unique_id=1078465325]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ScoreLabel" type="Label" parent="UI Master" unique_id=261509162]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="ChipsLabel" type="Label" parent="UI Master" unique_id=461066778]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="BetLabel" type="Label" parent="UI Master" unique_id=1926505779]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI Master" unique_id=1846608895]
+offset_left = 848.0
+offset_top = 927.0
+offset_right = 1212.0
+offset_bottom = 1035.0
+theme_override_constants/separation = 20
+
+[node name="HitButton" type="Button" parent="UI Master/HBoxContainer" unique_id=1454298668]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+icon = ExtResource("1_0h1n1")
+
+[node name="StandButton" type="Button" parent="UI Master/HBoxContainer" unique_id=1010999428]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+icon = ExtResource("2_56i82")
+
+[node name="DoubleButton" type="Button" parent="UI Master/HBoxContainer" unique_id=1355856589]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84313726, 0, 1)
+theme_override_font_sizes/font_size = 24
+icon = ExtResource("3_84dds")
