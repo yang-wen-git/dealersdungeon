@@ -3,19 +3,27 @@
 [ext_resource type="Script" uid="uid://diwemd1p23481" path="res://ui/scenes/title_screen.gd" id="1_moct7"]
 [ext_resource type="Texture2D" uid="uid://bo1tqk1vthoiw" path="res://assets/tile_0111.png" id="1_ucunv"]
 [ext_resource type="Texture2D" uid="uid://baw6s0l0ycvsv" path="res://assets/tile_0112.png" id="2_2y6yc"]
+<<<<<<< HEAD
 [ext_resource type="Texture2D" uid="uid://c1jvx04mxk606" path="res://Sprites/Cards/Spade_A.png" id="2_moct7"]
 [ext_resource type="Texture2D" uid="uid://cetqtbnwurvc0" path="res://Sprites/Cards/Jack_B.png" id="3_bjrtg"]
+=======
+[ext_resource type="Texture2D" uid="uid://c1jvx04mxk606" path="res://Sprites/Cards/Spades_A.png" id="2_moct7"]
+[ext_resource type="Texture2D" uid="uid://josgehxtyejm" path="res://background/PixelFantasy_Caves_1.0/background4b.png" id="2_owypx"]
+[ext_resource type="Texture2D" uid="uid://b4nccfvlncbd7" path="res://background/PixelFantasy_Caves_1.0/background1.png" id="2_qptem"]
+>>>>>>> ui
 [ext_resource type="Texture2D" uid="uid://qpl165otq162" path="res://assets/tile_0108.png" id="3_kbe5p"]
 [ext_resource type="Texture2D" uid="uid://cbnultgxq4hoh" path="res://Sprites/Start.png" id="4_owypx"]
 [ext_resource type="Texture2D" uid="uid://dks3u0tqnkdbf" path="res://Sprites/Cards/Joker2.png" id="4_qptem"]
 [ext_resource type="Texture2D" uid="uid://d2pqsa2r1wg0e" path="res://assets/tile_0119.png" id="4_rm1cl"]
 [ext_resource type="Texture2D" uid="uid://urml1m7se1cd" path="res://assets/tile_0130.png" id="5_7ubq4"]
+[ext_resource type="Texture2D" uid="uid://ddx1md3qu4kwk" path="res://Sprites/Cards/King_Clubs_B.png" id="5_hwblt"]
 [ext_resource type="Texture2D" uid="uid://byjpmmb4bq1sm" path="res://Sprites/End.png" id="5_qptem"]
 [ext_resource type="Texture2D" uid="uid://c1hyybhek00f6" path="res://assets/tile_0131.png" id="6_oecfi"]
 [ext_resource type="Texture2D" uid="uid://2i7vblnj7o2m" path="res://assets/tile_0133.png" id="7_moct7"]
 [ext_resource type="Texture2D" uid="uid://bq4y2p06h8v7l" path="res://assets/tile_0126.png" id="8_bjrtg"]
 [ext_resource type="Texture2D" uid="uid://cv56upljpd4jq" path="res://assets/tile_0114.png" id="9_owypx"]
 [ext_resource type="Texture2D" uid="uid://cecb3fge7vqy7" path="res://assets/tile_0093.png" id="10_qptem"]
+[ext_resource type="AudioStream" uid="uid://d2i82xh5y64x5" path="res://ui/Audio/danielhren-calm-bay-469507.mp3" id="17_bjrtg"]
 
 [node name="TitleScreen" type="Control" unique_id=2145786816]
 layout_mode = 3
@@ -26,11 +34,17 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_moct7")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=900434423]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1113777513]
 layout_mode = 0
 offset_right = 2048.0
 offset_bottom = 1152.0
-color = Color(0.101960786, 0.101960786, 0.18039216, 1)
+texture = ExtResource("2_qptem")
+
+[node name="Cave" type="TextureRect" parent="." unique_id=1487540370]
+layout_mode = 0
+offset_right = 2048.0
+offset_bottom = 1152.0
+texture = ExtResource("2_owypx")
 
 [node name="Ace" type="Sprite2D" parent="." unique_id=1789474143]
 position = Vector2(404, 566)
@@ -41,7 +55,7 @@ texture = ExtResource("2_moct7")
 [node name="King" type="Sprite2D" parent="." unique_id=2028496116]
 position = Vector2(1011, 172)
 scale = Vector2(4.8, 4.8)
-texture = ExtResource("3_bjrtg")
+texture = ExtResource("5_hwblt")
 
 [node name="Joker" type="Sprite2D" parent="." unique_id=395501550]
 position = Vector2(1543, 478.99994)
@@ -51,20 +65,21 @@ texture = ExtResource("4_qptem")
 
 [node name="PlayButton" type="Button" parent="." unique_id=1510423652]
 layout_mode = 0
-offset_left = 674.0
-offset_top = 240.0
-offset_right = 1382.0
-offset_bottom = 948.0
+offset_left = 137.0
+offset_top = 528.0
+offset_right = 845.0
+offset_bottom = 1236.0
 icon = ExtResource("4_owypx")
 flat = true
 
 [node name="EndButton" type="Button" parent="." unique_id=1000351311]
 layout_mode = 0
-offset_left = 673.0
-offset_top = 563.0
-offset_right = 1381.0
-offset_bottom = 1271.0
+offset_left = 1192.0
+offset_top = 521.0
+offset_right = 1900.0
+offset_bottom = 1229.0
 icon = ExtResource("5_qptem")
+flat = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=304910415]
 layout_mode = 0
@@ -184,3 +199,7 @@ layout_mode = 0
 offset_left = 20.0
 offset_right = 20.0
 offset_bottom = 40.0
+
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1323950393]
+stream = ExtResource("17_bjrtg")
+autoplay = true
