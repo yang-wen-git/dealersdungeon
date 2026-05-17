@@ -26,6 +26,8 @@ extends Node
 @onready var deck_visual: Sprite2D = $"../DeckVisual"
 # Untyped: enemy_mushroom.gd has no class_name, and we call its custom anim methods.
 @onready var enemy_mushroom = $"../Enemies/Mushroom/Enemy_Mushroom"
+# Untyped: toad_dialog.gd has no class_name.
+@onready var toad_dialog = $"../dialog/toadDialog"
 
 # --- State Variables ---
 
@@ -769,6 +771,8 @@ func apply_player_attack(enemy: Enemy) -> void:
 	enemy.take_damage(damage)
 	print("	You deal %d damage to %s! (HP: %d/%d)" % [damage, enemy.name, enemy.health, enemy.max_health])
 	update_health_ui()
+	if toad_dialog:
+		toad_dialog.dismiss()
 	if enemy.health <= 0:
 		if enemy_mushroom:
 			enemy_mushroom.dies()
@@ -782,6 +786,8 @@ func apply_enemy_attack(enemy: Enemy) -> void:
 	RunData.player.health = max(RunData.player.health, 0)
 	print("	%s deals %d damage to you! (HP: %d/%d)" % [enemy.name, damage, RunData.player.health, RunData.player.max_health])
 	update_health_ui()
+	if toad_dialog:
+		toad_dialog.dismiss()
 	if enemy_mushroom:
 		enemy_mushroom.do_damage_Anim()
 
