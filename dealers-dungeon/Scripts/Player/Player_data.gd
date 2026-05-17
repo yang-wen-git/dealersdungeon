@@ -24,8 +24,7 @@ func add_passive_bonus(effect: String, value: int):
 	if effect == "damage":
 		bonus_damage += value
 	elif effect == "defense":
-		bonus_defense += value
+		bonus_defense += float(value)
 	elif effect == "max_health":
 		max_health += value
 		health += value
- 
